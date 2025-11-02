@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import DashboardPlots from './DashboardPlots';
 import FileViewer from './FileViewer';
 import ChatInterface from './ChatInterface';
-import './Dashboard.css';
+import '../App.css';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
