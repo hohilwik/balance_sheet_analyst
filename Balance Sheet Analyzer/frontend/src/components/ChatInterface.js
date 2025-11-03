@@ -53,12 +53,21 @@ const ChatInterface = () => {
 
   return (
     <div className="chat-interface">
-      <h2>AI Business Assistant</h2>
+      <h2>Ready For Comprehensive Financial Analysis</h2>
       
       <div className="chat-messages">
         {messages.length === 0 && (
           <div className="welcome-message">
-            Welcome! Ask me anything about your business data.
+			TYPICAL REPORT FRAMEWORK:
+			1. Executive Summary - Key insights and risk assessment
+			2. Financial Health Scorecard - Critical metrics at a glance
+			3. Profitability Deep Dive - Fundamentals analysis of ROE drivers
+			4. Risk Assessment - Altman Z-score and solvency analysis
+			5. Strategic Implications - Business impact analysis
+			6. Recommendations - Actionable next steps
+			7. Questions to Consider - Strategic questions for leadership
+			
+			<h3>How can I assist with your financial analysis today?</h3>
           </div>
         )}
         

@@ -214,8 +214,8 @@ const DashboardPlots = () => {
       case '05_plot_margins':
         return timePeriods.map(period => ({
           period,
-          'EBIDTA Margin (%)': (Math.random() * 40 + 10).toFixed(2), // 10% to 50%
-          'EBT Margin (%)': (Math.random() * 30 + 5).toFixed(2), // 5% to 35%
+          'PBDIT Margin (%)': (Math.random() * 40 + 10).toFixed(2), // 10% to 50%
+          'PBT Margin (%)': (Math.random() * 30 + 5).toFixed(2), // 5% to 35%
           'Net Profit Margin (%)': (Math.random() * 25 + 2).toFixed(2), // 2% to 27%
           'Return on Capital Employed (%)': (Math.random() * 25 + 5).toFixed(2), // 5% to 30%
           'Return on Assets (%)': (Math.random() * 20 + 5).toFixed(2) // 5% to 25%
@@ -404,8 +404,8 @@ const DashboardPlots = () => {
           <YAxis />
           <Tooltip formatter={formatPercentage} />
           <Legend />
-          <Line type="monotone" dataKey="EBIDTA Margin (%)" stroke={colorPalette.margins[0]} strokeWidth={2} name="EBIDTA Margin" />
-          <Line type="monotone" dataKey="EBT Margin (%)" stroke={colorPalette.margins[1]} strokeWidth={2} name="EBT Margin" />
+          <Line type="monotone" dataKey="PBDIT Margin (%)" stroke={colorPalette.margins[0]} strokeWidth={2} name="PBDIT Margin" />
+          <Line type="monotone" dataKey="PBT Margin (%)" stroke={colorPalette.margins[1]} strokeWidth={2} name="PBT Margin" />
           <Line type="monotone" dataKey="Net Profit Margin (%)" stroke={colorPalette.margins[2]} strokeWidth={2} name="Net Profit Margin" />
           <Line type="monotone" dataKey="Return on Capital Employed (%)" stroke={colorPalette.margins[3]} strokeWidth={2} name="ROCE" />
           <Line type="monotone" dataKey="Return on Assets (%)" stroke={colorPalette.margins[4]} strokeWidth={2} name="ROA" />

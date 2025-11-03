@@ -6,6 +6,7 @@ import os
 import pandas as pd
 import numpy as np
 import json
+import requests
 from datetime import datetime, timedelta
 import uuid
 
@@ -69,37 +70,8 @@ def create_company_folder(company_id):
     folder_path = f'company_data/{company_id}'
     os.makedirs(folder_path, exist_ok=True)
     
-    # Create sample CSV files
-    sample_data = {
-        'sales_data.csv': ['Date', 'Product', 'Quantity', 'Revenue'],
-        'customer_data.csv': ['CustomerID', 'Name', 'Email', 'Region'],
-        'inventory.csv': ['ProductID', 'ProductName', 'Stock', 'Price'],
-        'employee_data.csv': ['EmployeeID', 'Name', 'Department', 'Salary'],
-        'financials.csv': ['Month', 'Revenue', 'Expenses', 'Profit'],
-        'marketing.csv': ['Campaign', 'Impressions', 'Clicks', 'Conversions'],
-        'operations.csv': ['Metric', 'Value', 'Target', 'Variance'],
-        'internal_data.csv': ['InternalID', 'ConfidentialData', 'Score']  # Hidden file
-    }
-    
-    for filename, headers in sample_data.items():
-        df = pd.DataFrame(columns=headers)
-        # Add some sample rows
-        for i in range(5):
-            if filename == 'sales_data.csv':
-                df.loc[i] = [f'2024-01-{i+1}', f'Product {i+1}', i*10, i*1000]
-            elif filename == 'customer_data.csv':
-                df.loc[i] = [f'CUST{i+1}', f'Customer {i+1}', f'customer{i+1}@email.com', f'Region {i%3+1}']
-            # Add more sample data for other files...
-        
-        df.to_csv(f'{folder_path}/{filename}', index=False)
-    
     # Create dynamic system prompt for LLM
-    system_prompt = f"""
-    You are an assistant for company: {company_id}.
-    The user has access to various business data including sales, customers, inventory, etc.
-    Help them analyze their data and answer business-related questions.
-    Current date: {datetime.now().strftime('%Y-%m-%d')}
-    """
+    system_prompt = generate_dynamic_system_prompt(company_id)
     
     with open(f'{folder_path}/system_prompt.txt', 'w') as f:
         f.write(system_prompt)
@@ -113,9 +85,7 @@ def get_user_company_files(company_id):
     files = os.listdir(folder_path)
     visible_files = [f for f in files if f.endswith('.csv') and f != 'internal_data.csv']
     return visible_files
-    
-import pandas as pd
-import numpy as np
+
 
 def transform_plot_data(file_path):
     """
@@ -175,6 +145,52 @@ def transform_plot_data(file_path):
             "error": str(e),
             "data": []
         }
+        
+        
+def generate_dynamic_system_prompt(company_id):
+    """Generate dynamic system prompt"""
+    
+    base_prompt_path = 'base_system_prompt.txt'
+    try:
+        with open(base_prompt_path, 'r') as f:
+            system_prompt = f.read().strip()
+    except FileNotFoundError:
+        system_prompt = "You are an experienced financial analyst briefing the company C-suite about the company's financials, income sources, expense streams, and future growth/profit prospects, while keeping in mind risk assessment of the state of the financials. Be respectful and professional. Do not use any emoji. Do not lecture the user. Concisely debrief the C-suite on the finances of the company"
+    
+    # Get all user files
+    all_files = get_user_company_files(company_id)
+    
+    # Filter for specific financial report files
+    financial_files = []
+    for filename in all_files:
+        if any([
+            filename.endswith('_quarterly results.csv'),
+            filename.endswith('_cash-flow.csv'), 
+            filename.endswith('_annual_results.csv'),
+            filename.endswith('-BS.csv'),
+            filename.endswith('-PL.csv'),
+            filename.endswith('ratios.csv')
+        ]):
+            financial_files.append(filename)
+    
+    file_contents = ""
+    
+    for filename in financial_files:
+        file_path = f'company_data/{company_id}/{filename}'
+        try:
+            # Read the entire CSV file
+            df = pd.read_csv(file_path)
+            file_contents += df.to_string(index=False)  # Convert entire DataFrame to string
+            file_contents += "\n"  # Add newline separation between files
+            
+        except Exception as e:
+            file_contents += f"\n=== File: {filename} ===\nError reading file: {str(e)}\n"
+    
+    
+    full_prompt = system_prompt + "\n" + file_contents
+    
+    return full_prompt
+
 
 def convert_value(value):
     """Convert value to appropriate type, preserving nulls for invalid values"""
@@ -423,6 +439,9 @@ def chat_with_llm():
     data = request.json
     message = data.get('message')
     
+    if not message:
+        return jsonify({'error': 'Message is required'}), 400
+    
     # Get user's company_id
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
@@ -437,31 +456,86 @@ def chat_with_llm():
     system_prompt_path = f'company_data/{company_id}/system_prompt.txt'
     
     # Read system prompt
-    system_prompt = "You are a helpful assistant."
+    system_prompt = "You are an experienced financial analyst briefing the company C-suite about the company's financials, income sources, expense streams, and future growth/profit prospects, while keeping in mind risk assessment of the state of the financials. Be respectful and professional. Do not use any emoji. Do not lecture the user. Concisely debrief the C-suite on the finances of the company."
+    
     if os.path.exists(system_prompt_path):
         with open(system_prompt_path, 'r') as f:
             system_prompt = f.read()
     
-    # LLM Integration - Choose one method:
+    # Read API key
+    api_key = ""
+    api_path = "../../../api_deepseek.txt"
     
-    # Method 1: DeepSeek API
-    # import requests
-    # response = requests.post('https://api.deepseek.com/chat/completions', 
-    #     headers={'Authorization': 'Bearer YOUR_DEEPSEEK_API_KEY'},
-    #     json={
-    #         'model': 'deepseek-chat',
-    #         'messages': [
-    #             {'role': 'system', 'content': system_prompt},
-    #             {'role': 'user', 'content': message}
-    #         ]
-    #     })
-    # llm_response = response.json()['choices'][0]['message']['content']
+    # Try multiple possible paths for the API key
+    possible_paths = [
+        api_path
+    ]
     
-    # Method 2: Local LLM (replace with your implementation)
-    # For now, we'll return a mock response
-    llm_response = f"Mock response for: {message}. Company: {company_id}. System context loaded."
+    for path in possible_paths:
+        if os.path.exists(path):
+            try:
+                with open(path, 'r') as f:
+                    api_key = f.read().strip()
+                break
+            except Exception as e:
+                print(f"Error reading API key from {path}: {e}")
     
-    return jsonify({'response': llm_response})
+    if not api_key:
+        return jsonify({'error': 'DeepSeek API key not found. Please ensure api_deepseek.txt exists with your API key.'}), 500
+    
+    # DeepSeek API call
+    try:
+        headers = {
+            'Authorization': f'Bearer {api_key}',
+            'Content-Type': 'application/json'
+        }
+        
+        payload = {
+            'model': 'deepseek-reasoner',
+            'messages': [
+                {'role': 'system', 'content': system_prompt},
+                {'role': 'user', 'content': message}
+            ],
+            'stream': True,
+            'max_tokens': 28000
+        }
+        
+        response = requests.post(
+            'https://api.deepseek.com/chat/completions',
+            headers=headers,
+            json=payload,
+            timeout=120  # 120 second timeout
+        )
+        
+        if response.status_code == 200:
+            response_data = response.json()
+            llm_response = response_data['choices'][0]['message']['content']
+            
+            return jsonify({
+                'response': llm_response,
+                'usage': response_data.get('usage', {}),
+                'model': response_data.get('model', 'deepseek-reasoner')
+            })
+        else:
+            error_detail = response.text
+            try:
+                error_json = response.json()
+                error_detail = error_json.get('error', {}).get('message', error_detail)
+            except:
+                pass
+                
+            return jsonify({
+                'error': f'DeepSeek API error: {response.status_code}',
+                'detail': error_detail
+            }), 500
+            
+    except requests.exceptions.Timeout:
+        return jsonify({'error': 'DeepSeek API request timed out'}), 504
+    except requests.exceptions.ConnectionError:
+        return jsonify({'error': 'Failed to connect to DeepSeek API'}), 503
+    except Exception as e:
+        return jsonify({'error': f'Unexpected error: {str(e)}'}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

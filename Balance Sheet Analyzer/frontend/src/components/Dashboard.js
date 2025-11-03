@@ -49,7 +49,7 @@ const Dashboard = () => {
           className={activeTab === 'chat' ? 'active' : ''}
           onClick={() => setActiveTab('chat')}
         >
-          AI Assistant
+          FinAnalyst AI
         </button>
       </nav>
 
