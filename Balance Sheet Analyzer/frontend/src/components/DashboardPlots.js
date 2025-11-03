@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import {
   LineChart, Line, BarChart, Bar, AreaChart, Area, ComposedChart,
@@ -38,6 +38,63 @@ const DashboardPlots = () => {
   useEffect(() => {
     fetchAllPlotData();
   }, []);
+
+  // Helper function to filter out small categories from area charts
+  const filterSmallCategories = (data, categoryKeys, thresholdPercentage = 5) => {
+    if (!data || data.length === 0) return { filteredData: data, filteredKeys: categoryKeys };
+    
+    // Calculate total area for each category across all time periods
+    const categoryTotals = {};
+    categoryKeys.forEach(key => {
+      const total = data.reduce((sum, item) => {
+        const value = item[key];
+        return sum + (typeof value === 'number' && !isNaN(value) ? Math.abs(value) : 0);
+      }, 0);
+      categoryTotals[key] = total;
+    });
+
+    // Calculate overall total
+    const overallTotal = Object.values(categoryTotals).reduce((sum, total) => sum + total, 0);
+    
+    // Filter out categories that contribute less than threshold percentage
+    const significantCategories = categoryKeys.filter(key => {
+      const percentage = (categoryTotals[key] / overallTotal) * 100;
+      return percentage >= thresholdPercentage;
+    });
+
+    // If we filtered out some categories, group them into "Other"
+    if (significantCategories.length < categoryKeys.length && significantCategories.length > 0) {
+      const otherCategories = categoryKeys.filter(key => !significantCategories.includes(key));
+      
+      const dataWithOther = data.map(item => {
+        const newItem = { ...item };
+        
+        // Calculate "Other" as sum of all small categories
+        const otherValue = otherCategories.reduce((sum, key) => {
+          const value = item[key];
+          return sum + (typeof value === 'number' && !isNaN(value) ? value : 0);
+        }, 0);
+        
+        // Remove small category fields and add "Other"
+        otherCategories.forEach(key => delete newItem[key]);
+        if (otherValue !== 0) {
+          newItem['Other'] = otherValue;
+        }
+        
+        return newItem;
+      });
+
+      return {
+        filteredData: dataWithOther,
+        filteredKeys: otherCategories.length > 0 ? [...significantCategories, 'Other'] : significantCategories
+      };
+    }
+
+    return {
+      filteredData: data,
+      filteredKeys: significantCategories
+    };
+  };
 
   const fetchPlotData = async (plotName) => {
     try {
@@ -128,32 +185,37 @@ const DashboardPlots = () => {
         }));
 
       case '03_plot_expenses':
-        // Dynamic expenses based on actual CSV structure
-        const expenseCategories = ['Employee Benefits', 'Depreciation', 'Finance Costs', 'Other Expenses', 'Total Tax Expenses', 'Exceptional Items'];
-        return timePeriods.map(period => {
-          const expenses = {};
-          expenseCategories.forEach(category => {
-            expenses[category] = Math.floor(Math.random() * 2000) + 500;
-          });
-          return { period, ...expenses };
-        });
+        // Dynamic expenses with some small categories for testing
+        return timePeriods.map(period => ({
+          period,
+          'Employee Benefits': Math.floor(Math.random() * 5000) + 2000, // Large
+          'Marketing': Math.floor(Math.random() * 3000) + 1000,         // Medium
+          'R&D': Math.floor(Math.random() * 2000) + 500,               // Medium
+          'Operations': Math.floor(Math.random() * 4000) + 1500,       // Large
+          'Administration': Math.floor(Math.random() * 800) + 200,     // Small
+          'Utilities': Math.floor(Math.random() * 300) + 100,          // Very small
+          'Travel': Math.floor(Math.random() * 200) + 50,              // Very small
+          'Taxes': Math.floor(Math.random() * 1000) + 500              // Small-medium
+        }));
 
       case '04_plot_cashflow':
-        // Dynamic cash flow categories based on filtered CSV
-        const cashFlowCategories = ['Cash Flow from Operating Activities', 'Cash Flow from Investing Activities', 'Cash Flow from Financing Activities', 'Net Increase in Cash and Cash Equivalents'];
-        return timePeriods.map(period => {
-          const cashFlows = {};
-          cashFlowCategories.forEach(category => {
-            cashFlows[category] = Math.floor(Math.random() * 4000) - 1000; // Can be negative
-          });
-          return { period, ...cashFlows };
-        });
+        // Dynamic cash flow categories with varying sizes
+        return timePeriods.map(period => ({
+          period,
+          'Operating Activities': Math.floor(Math.random() * 8000) - 1000, // Large
+          'Investing Activities': Math.floor(Math.random() * 5000) - 2000, // Medium
+          'Financing Activities': Math.floor(Math.random() * 4000) - 1500, // Medium
+          'Free Cash Flow': Math.floor(Math.random() * 3000) - 500,        // Medium
+          'Foreign Exchange': Math.floor(Math.random() * 200) - 100,       // Very small
+          'Asset Sales': Math.floor(Math.random() * 300) - 50,             // Very small
+          'Dividends Paid': Math.floor(Math.random() * 600) + 100          // Small
+        }));
 
       case '05_plot_margins':
         return timePeriods.map(period => ({
           period,
-          'PBDIT Margin (%)': (Math.random() * 40 + 10).toFixed(2), // 10% to 50%
-          'PBT Margin (%)': (Math.random() * 30 + 5).toFixed(2), // 5% to 35%
+          'EBIDTA Margin (%)': (Math.random() * 40 + 10).toFixed(2), // 10% to 50%
+          'EBT Margin (%)': (Math.random() * 30 + 5).toFixed(2), // 5% to 35%
           'Net Profit Margin (%)': (Math.random() * 25 + 2).toFixed(2), // 2% to 27%
           'Return on Capital Employed (%)': (Math.random() * 25 + 5).toFixed(2), // 5% to 30%
           'Return on Assets (%)': (Math.random() * 20 + 5).toFixed(2) // 5% to 25%
@@ -197,7 +259,7 @@ const DashboardPlots = () => {
   };
 
   // Render individual plots with loading states
-  const renderPlot = (plotKey, title, chartComponent, height = 500) => {
+  const renderPlot = (plotKey, title, chartComponent, height = 300) => {
     const data = plotData[plotKey];
     const isLoading = loading[plotKey];
     const hasError = errors[plotKey];
@@ -230,7 +292,7 @@ const DashboardPlots = () => {
     const data = plotData.assetsLiabilities || [];
     
     return (
-      <ResponsiveContainer width="100%" height={500}>
+      <ResponsiveContainer width="100%" height={300}>
         <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="period" />
@@ -251,7 +313,7 @@ const DashboardPlots = () => {
     const data = plotData.profitability || [];
     
     return (
-      <ResponsiveContainer width="100%" height={500}>
+      <ResponsiveContainer width="100%" height={300}>
         <LineChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="period" />
@@ -266,20 +328,23 @@ const DashboardPlots = () => {
     );
   };
 
-  // Plot 3: Stacked area chart of expenses (dynamic)
+  // Plot 3: Stacked area chart of expenses (dynamic with filtered categories)
   const renderExpensesChart = () => {
     const data = plotData.expenses || [];
     const expenseKeys = getDynamicKeys(data, ['period']);
     
+    // Filter out small expense categories and group them into "Other"
+    const { filteredData, filteredKeys } = filterSmallCategories(data, expenseKeys, 5);
+    
     return (
-      <ResponsiveContainer width="100%" height={500}>
-        <AreaChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+      <ResponsiveContainer width="100%" height={300}>
+        <AreaChart data={filteredData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="period" />
           <YAxis />
           <Tooltip formatter={formatCurrency} />
           <Legend />
-          {expenseKeys.map((key, index) => (
+          {filteredKeys.map((key, index) => (
             <Area
               key={key}
               type="monotone"
@@ -295,20 +360,23 @@ const DashboardPlots = () => {
     );
   };
 
-  // Plot 4: Stacked area chart of cash flow (dynamic)
+  // Plot 4: Stacked area chart of cash flow (dynamic with filtered categories)
   const renderCashFlowChart = () => {
     const data = plotData.cashFlow || [];
     const cashFlowKeys = getDynamicKeys(data, ['period']);
     
+    // Filter out small cash flow categories and group them into "Other"
+    const { filteredData, filteredKeys } = filterSmallCategories(data, cashFlowKeys, 5);
+    
     return (
-      <ResponsiveContainer width="100%" height={500}>
-        <AreaChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+      <ResponsiveContainer width="100%" height={300}>
+        <AreaChart data={filteredData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="period" />
           <YAxis />
           <Tooltip formatter={formatCurrency} />
           <Legend />
-          {cashFlowKeys.map((key, index) => (
+          {filteredKeys.map((key, index) => (
             <Area
               key={key}
               type="monotone"
@@ -329,15 +397,15 @@ const DashboardPlots = () => {
     const data = plotData.margins || [];
     
     return (
-      <ResponsiveContainer width="100%" height={500}>
+      <ResponsiveContainer width="100%" height={300}>
         <LineChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="period" />
           <YAxis />
           <Tooltip formatter={formatPercentage} />
           <Legend />
-          <Line type="monotone" dataKey="PBDIT Margin (%)" stroke={colorPalette.margins[0]} strokeWidth={2} name="EBDIT Margin" />
-          <Line type="monotone" dataKey="PBT Margin (%)" stroke={colorPalette.margins[1]} strokeWidth={2} name="EBT Margin" />
+          <Line type="monotone" dataKey="EBIDTA Margin (%)" stroke={colorPalette.margins[0]} strokeWidth={2} name="EBIDTA Margin" />
+          <Line type="monotone" dataKey="EBT Margin (%)" stroke={colorPalette.margins[1]} strokeWidth={2} name="EBT Margin" />
           <Line type="monotone" dataKey="Net Profit Margin (%)" stroke={colorPalette.margins[2]} strokeWidth={2} name="Net Profit Margin" />
           <Line type="monotone" dataKey="Return on Capital Employed (%)" stroke={colorPalette.margins[3]} strokeWidth={2} name="ROCE" />
           <Line type="monotone" dataKey="Return on Assets (%)" stroke={colorPalette.margins[4]} strokeWidth={2} name="ROA" />
@@ -351,7 +419,7 @@ const DashboardPlots = () => {
     const data = plotData.leverage || [];
     
     return (
-      <ResponsiveContainer width="100%" height={500}>
+      <ResponsiveContainer width="100%" height={300}>
         <LineChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="period" />
