@@ -4,6 +4,7 @@ from flask_jwt_extended import JWTManager, create_access_token, jwt_required, ge
 import sqlite3
 import os
 import pandas as pd
+import numpy as np
 import json
 from datetime import datetime, timedelta
 import uuid
@@ -112,6 +113,80 @@ def get_user_company_files(company_id):
     files = os.listdir(folder_path)
     visible_files = [f for f in files if f.endswith('.csv') and f != 'internal_data.csv']
     return visible_files
+    
+import pandas as pd
+import numpy as np
+
+def transform_plot_data(file_path):
+    """
+    Optimized version using pandas operations
+    """
+    try:
+        # Read CSV
+        df = pd.read_csv(file_path)
+        
+        # Step 1: Filter out invalid columns
+        def is_valid_column(column_data, column_name):
+            # Skip if column name is "--"
+            if column_name == "--":
+                return False
+            
+            # Skip if all values are "--", "NA", or empty
+            valid_count = sum(1 for val in column_data 
+                            if pd.notna(val) and str(val).strip() not in ["--", "NA", ""])
+            return valid_count > 0
+        
+        valid_columns = [col for col in df.columns if is_valid_column(df[col], col)]
+        df = df[valid_columns]
+        
+        # Step 2: Transform from row-major to column-major
+        label_col = df.columns[0]
+        time_periods = df.columns[1:]
+        
+        # Reverse time periods for chronological order
+        time_periods_reversed = list(reversed(time_periods))
+        
+        # Melt the dataframe to transform to column-major format
+        melted_df = df.melt(id_vars=[label_col], value_vars=time_periods_reversed, 
+                          var_name='period', value_name='value')
+        
+        # Pivot to get the desired structure
+        pivoted_df = melted_df.pivot(index='period', columns=label_col, values='value')
+        
+        # Reset index to make period a column
+        pivoted_df = pivoted_df.reset_index()
+        
+        # Convert values to appropriate types
+        for column in pivoted_df.columns:
+            if column != 'period':
+                pivoted_df[column] = pivoted_df[column].apply(convert_value)
+        
+        # Convert to list of dictionaries for JSON response
+        result_data = pivoted_df.to_dict('records')
+        
+        return {
+            "success": True,
+            "data": result_data
+        }
+        
+    except Exception as e:
+        return {
+            "success": False,
+            "error": str(e),
+            "data": []
+        }
+
+def convert_value(value):
+    """Convert value to appropriate type, preserving nulls for invalid values"""
+    if pd.isna(value) or str(value).strip() in ["--", "NA", ""]:
+        return None
+    try:
+        if isinstance(value, str):
+            clean_value = value.replace(',', '')
+            return float(clean_value)
+        return float(value)
+    except (ValueError, TypeError):
+        return value
 
 # Authentication routes
 @app.route('/api/register', methods=['POST'])
@@ -268,13 +343,77 @@ def get_file_data(filename):
         return jsonify({'error': 'File not found'}), 404
     
     try:
-        df = pd.read_csv(file_path)
+        # Read CSV with proper encoding and header handling
+        df = pd.read_csv(file_path, encoding='utf-8')
+        
+        # If the CSV has no headers, create generic ones
+        if df.columns.dtype == 'object' and all(str(col).startswith('Unnamed:') for col in df.columns):
+            df.columns = [f'Column_{i+1}' for i in range(len(df.columns))]
+        
+        # Convert NaN values to empty strings
+        df = df.fillna('')
+        
+        # Convert all data to strings to avoid serialization issues
+        df = df.astype(str)
+        
         return jsonify({
             'columns': df.columns.tolist(),
             'data': df.values.tolist()
         })
+    except UnicodeDecodeError:
+        # Try with different encoding if UTF-8 fails
+        try:
+            df = pd.read_csv(file_path, encoding='latin-1')
+            df = df.fillna('')
+            df = df.astype(str)
+            
+            return jsonify({
+                'columns': df.columns.tolist(),
+                'data': df.values.tolist()
+            })
+        except Exception as e:
+            return jsonify({'error': f'Failed to read file: {str(e)}'}), 500
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': f'Failed to process file: {str(e)}'}), 500
+        
+@app.route('/api/user/plot/<plot_name>', methods=['GET'])
+@jwt_required()
+def get_plot_data(plot_name):
+    current_user = get_jwt_identity()
+    
+    # Get user's company_id
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    c.execute("SELECT company_id FROM users WHERE username = ?", (current_user,))
+    user = c.fetchone()
+    conn.close()
+    
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+    
+    company_id = user[0]
+    file_path = f'company_data/{company_id}/plots/{plot_name}.csv'
+    
+    # If plot file doesn't exist, return empty data (frontend will use dummy data)
+    if not os.path.exists(file_path):
+        return jsonify({
+            'data': [],
+            'message': 'Plot data file not found, using sample data'
+        })
+    
+    result = transform_plot_data(file_path)
+    
+    if result["success"]:
+        return jsonify({
+            "success": True,
+            "data": result["data"]
+        })
+    else:
+        return jsonify({
+            "success": False,
+            "error": result["error"],
+            "data": []
+        }), 500
 
 # LLM Chat route
 @app.route('/api/chat', methods=['POST'])

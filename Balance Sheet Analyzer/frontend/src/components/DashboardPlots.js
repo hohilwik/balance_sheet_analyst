@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   LineChart, Line, BarChart, Bar, AreaChart, Area, ComposedChart,
-  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
-  BarStack
+  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
 } from 'recharts';
 
 const DashboardPlots = () => {
@@ -12,7 +11,7 @@ const DashboardPlots = () => {
     profitability: null,
     expenses: null,
     cashFlow: null,
-    ratios: null,
+    margins: null,
     leverage: null
   });
   const [loading, setLoading] = useState({
@@ -20,7 +19,7 @@ const DashboardPlots = () => {
     profitability: true,
     expenses: true,
     cashFlow: true,
-    ratios: true,
+    margins: true,
     leverage: true
   });
   const [errors, setErrors] = useState({});
@@ -32,7 +31,7 @@ const DashboardPlots = () => {
     profitability: ['#2196F3', '#4CAF50', '#FF5722'],
     expenses: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'],
     cashFlow: ['#00C49F', '#0088FE', '#FFBB28', '#FF8042'],
-    ratios: ['#8884D8', '#82CA9D', '#FF8042', '#0088FE'],
+    margins: ['#8884D8', '#82CA9D', '#FF8042', '#0088FE', '#FF6B6B'],
     leverage: ['#FF6B6B', '#4ECDC4', '#45B7D1']
   };
 
@@ -58,7 +57,7 @@ const DashboardPlots = () => {
 
   const fetchAllPlotData = async () => {
     try {
-      const plotNames = ['assets_liabilities', 'profitability', 'expenses', 'cash_flow', 'ratios', 'leverage'];
+      const plotNames = ['01_plot_AandL', '02_plot_revPL', '03_plot_expenses', '04_plot_cashflow', '05_plot_margins', '06_plot_leverage'];
       
       const promises = plotNames.map(async (plotName) => {
         const data = await fetchPlotData(plotName);
@@ -71,8 +70,32 @@ const DashboardPlots = () => {
       const newLoading = { ...loading };
       
       results.forEach(({ plotName, data }) => {
-        newPlotData[plotName] = data;
-        newLoading[plotName] = false;
+        // Map the file names to our internal state keys
+        let stateKey;
+        switch(plotName) {
+          case '01_plot_AandL':
+            stateKey = 'assetsLiabilities';
+            break;
+          case '02_plot_revPL':
+            stateKey = 'profitability';
+            break;
+          case '03_plot_expenses':
+            stateKey = 'expenses';
+            break;
+          case '04_plot_cashflow':
+            stateKey = 'cashFlow';
+            break;
+          case '05_plot_margins':
+            stateKey = 'margins';
+            break;
+          case '06_plot_leverage':
+            stateKey = 'leverage';
+            break;
+          default:
+            stateKey = plotName;
+        }
+        newPlotData[stateKey] = data;
+        newLoading[stateKey] = false;
       });
       
       setPlotData(newPlotData);
@@ -87,40 +110,37 @@ const DashboardPlots = () => {
     const timePeriods = ['2020', '2021', '2022', '2023', '2024'];
     
     switch (plotType) {
-      case 'assets_liabilities':
+      case '01_plot_AandL':
         return timePeriods.map(period => ({
           period,
-          currentAssets: Math.floor(Math.random() * 5000) + 1000,
-          nonCurrentAssets: Math.floor(Math.random() * 8000) + 2000,
-          shortTermLiabilities: Math.floor(Math.random() * 3000) + 500,
-          longTermLiabilities: Math.floor(Math.random() * 4000) + 1000,
-          totalAssets: function() { return this.currentAssets + this.nonCurrentAssets; },
-          totalLiabilities: function() { return this.shortTermLiabilities + this.longTermLiabilities; }
+          'Total Current Assets': Math.floor(Math.random() * 5000) + 1000,
+          'Total Non-Current Assets': Math.floor(Math.random() * 8000) + 2000,
+          'Total Current Liabilities': Math.floor(Math.random() * 3000) + 500,
+          'Total Non-Current Liabilities': Math.floor(Math.random() * 4000) + 1000
         }));
 
-      case 'profitability':
+      case '02_plot_revPL':
         return timePeriods.map(period => ({
           period,
-          totalRevenue: Math.floor(Math.random() * 15000) + 5000,
-          grossProfit: Math.floor(Math.random() * 8000) + 2000,
-          netProfit: Math.floor(Math.random() * 3000) + 500,
-          operatingProfit: Math.floor(Math.random() * 5000) + 1000
+          'Total Revenue': Math.floor(Math.random() * 15000) + 5000,
+          'Profit/Loss before Tax': Math.floor(Math.random() * 3000) - 500, // Can be negative
+          'Profit/Loss for the period': Math.floor(Math.random() * 2500) - 300 // Can be negative
         }));
 
-      case 'expenses':
-        const expenseCategories = ['Salaries', 'Marketing', 'R&D', 'Operations', 'Administration', 'Taxes'];
+      case '03_plot_expenses':
+        // Dynamic expenses based on actual CSV structure
+        const expenseCategories = ['Employee Benefits', 'Depreciation', 'Finance Costs', 'Other Expenses', 'Total Tax Expenses', 'Exceptional Items'];
         return timePeriods.map(period => {
           const expenses = {};
-          let total = 0;
           expenseCategories.forEach(category => {
             expenses[category] = Math.floor(Math.random() * 2000) + 500;
-            total += expenses[category];
           });
-          return { period, ...expenses, total };
+          return { period, ...expenses };
         });
 
-      case 'cash_flow':
-        const cashFlowCategories = ['Operating', 'Investing', 'Financing', 'Free Cash Flow'];
+      case '04_plot_cashflow':
+        // Dynamic cash flow categories based on filtered CSV
+        const cashFlowCategories = ['Cash Flow from Operating Activities', 'Cash Flow from Investing Activities', 'Cash Flow from Financing Activities', 'Net Increase in Cash and Cash Equivalents'];
         return timePeriods.map(period => {
           const cashFlows = {};
           cashFlowCategories.forEach(category => {
@@ -129,21 +149,22 @@ const DashboardPlots = () => {
           return { period, ...cashFlows };
         });
 
-      case 'ratios':
+      case '05_plot_margins':
         return timePeriods.map(period => ({
           period,
-          pbditMargin: (Math.random() * 0.4 + 0.1).toFixed(3), // 10% to 50%
-          pbtMargin: (Math.random() * 0.3 + 0.05).toFixed(3), // 5% to 35%
-          netMargin: (Math.random() * 0.25 + 0.02).toFixed(3), // 2% to 27%
-          returnOnAssets: (Math.random() * 0.2 + 0.05).toFixed(3) // 5% to 25%
+          'PBDIT Margin (%)': (Math.random() * 40 + 10).toFixed(2), // 10% to 50%
+          'PBT Margin (%)': (Math.random() * 30 + 5).toFixed(2), // 5% to 35%
+          'Net Profit Margin (%)': (Math.random() * 25 + 2).toFixed(2), // 2% to 27%
+          'Return on Capital Employed (%)': (Math.random() * 25 + 5).toFixed(2), // 5% to 30%
+          'Return on Assets (%)': (Math.random() * 20 + 5).toFixed(2) // 5% to 25%
         }));
 
-      case 'leverage':
+      case '06_plot_leverage':
         return timePeriods.map(period => ({
           period,
-          currentRatio: (Math.random() * 2 + 0.5).toFixed(2), // 0.5 to 2.5
-          quickRatio: (Math.random() * 1.5 + 0.3).toFixed(2), // 0.3 to 1.8
-          debtToEquity: (Math.random() * 2 + 0.1).toFixed(2) // 0.1 to 2.1
+          'Current Ratio (X)': (Math.random() * 2 + 0.5).toFixed(2), // 0.5 to 2.5
+          'Quick Ratio (X)': (Math.random() * 1.5 + 0.3).toFixed(2), // 0.3 to 1.8
+          'Total Debt/Equity (X)': (Math.random() * 2 + 0.1).toFixed(2) // 0.1 to 2.1
         }));
 
       default:
@@ -152,14 +173,31 @@ const DashboardPlots = () => {
   };
 
   // Dynamic key extractors for flexible data handling
-  const getDynamicKeys = (data, excludeKeys = ['period', 'total']) => {
+  const getDynamicKeys = (data, excludeKeys = ['period']) => {
     if (!data || data.length === 0) return [];
     const sample = data[0];
     return Object.keys(sample).filter(key => !excludeKeys.includes(key));
   };
 
+  // Format currency values in tooltips
+  const formatCurrency = (value) => {
+    if (typeof value !== 'number') return value;
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'INR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(value);
+  };
+
+  // Format percentage values in tooltips
+  const formatPercentage = (value) => {
+    if (typeof value !== 'number') return value;
+    return `${value}%`;
+  };
+
   // Render individual plots with loading states
-  const renderPlot = (plotKey, title, chartComponent, height = 300) => {
+  const renderPlot = (plotKey, title, chartComponent, height = 500) => {
     const data = plotData[plotKey];
     const isLoading = loading[plotKey];
     const hasError = errors[plotKey];
@@ -189,21 +227,20 @@ const DashboardPlots = () => {
 
   // Plot 1: Stacked bar chart for assets and liabilities
   const renderAssetsLiabilitiesChart = () => {
-    const data = plotData.assets_liabilities || [];
-    const keys = ['currentAssets', 'nonCurrentAssets', 'shortTermLiabilities', 'longTermLiabilities'];
+    const data = plotData.assetsLiabilities || [];
     
     return (
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="100%" height={500}>
         <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="period" />
           <YAxis />
-          <Tooltip formatter={(value) => new Intl.NumberFormat('en-US').format(value)} />
+          <Tooltip formatter={formatCurrency} />
           <Legend />
-          <Bar dataKey="currentAssets" stackId="assets" fill={colorPalette.assets[0]} name="Current Assets" />
-          <Bar dataKey="nonCurrentAssets" stackId="assets" fill={colorPalette.assets[1]} name="Non-Current Assets" />
-          <Bar dataKey="shortTermLiabilities" stackId="liabilities" fill={colorPalette.assets[2]} name="Short Term Liabilities" />
-          <Bar dataKey="longTermLiabilities" stackId="liabilities" fill={colorPalette.assets[3]} name="Long Term Liabilities" />
+          <Bar dataKey="Total Current Assets" stackId="assets" fill={colorPalette.assets[0]} name="Current Assets" />
+          <Bar dataKey="Total Non-Current Assets" stackId="assets" fill={colorPalette.assets[1]} name="Non-Current Assets" />
+          <Bar dataKey="Total Current Liabilities" stackId="liabilities" fill={colorPalette.assets[2]} name="Current Liabilities" />
+          <Bar dataKey="Total Non-Current Liabilities" stackId="liabilities" fill={colorPalette.assets[3]} name="Non-Current Liabilities" />
         </BarChart>
       </ResponsiveContainer>
     );
@@ -214,16 +251,16 @@ const DashboardPlots = () => {
     const data = plotData.profitability || [];
     
     return (
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="100%" height={500}>
         <LineChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="period" />
           <YAxis />
-          <Tooltip formatter={(value) => new Intl.NumberFormat('en-US').format(value)} />
+          <Tooltip formatter={formatCurrency} />
           <Legend />
-          <Line type="monotone" dataKey="totalRevenue" stroke={colorPalette.profitability[0]} strokeWidth={2} name="Total Revenue" />
-          <Line type="monotone" dataKey="grossProfit" stroke={colorPalette.profitability[1]} strokeWidth={2} name="Gross Profit" />
-          <Line type="monotone" dataKey="netProfit" stroke={colorPalette.profitability[2]} strokeWidth={2} name="Net Profit" />
+          <Line type="monotone" dataKey="Total Revenue" stroke={colorPalette.profitability[0]} strokeWidth={2} name="Total Revenue" />
+          <Line type="monotone" dataKey="Profit/Loss before Tax" stroke={colorPalette.profitability[1]} strokeWidth={2} name="Profit before Tax" />
+          <Line type="monotone" dataKey="Profit/Loss for the period" stroke={colorPalette.profitability[2]} strokeWidth={2} name="Net Profit/Loss" />
         </LineChart>
       </ResponsiveContainer>
     );
@@ -232,15 +269,15 @@ const DashboardPlots = () => {
   // Plot 3: Stacked area chart of expenses (dynamic)
   const renderExpensesChart = () => {
     const data = plotData.expenses || [];
-    const expenseKeys = getDynamicKeys(data, ['period', 'total']);
+    const expenseKeys = getDynamicKeys(data, ['period']);
     
     return (
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="100%" height={500}>
         <AreaChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="period" />
           <YAxis />
-          <Tooltip formatter={(value) => new Intl.NumberFormat('en-US').format(value)} />
+          <Tooltip formatter={formatCurrency} />
           <Legend />
           {expenseKeys.map((key, index) => (
             <Area
@@ -260,16 +297,16 @@ const DashboardPlots = () => {
 
   // Plot 4: Stacked area chart of cash flow (dynamic)
   const renderCashFlowChart = () => {
-    const data = plotData.cash_flow || [];
+    const data = plotData.cashFlow || [];
     const cashFlowKeys = getDynamicKeys(data, ['period']);
     
     return (
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="100%" height={500}>
         <AreaChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="period" />
           <YAxis />
-          <Tooltip formatter={(value) => new Intl.NumberFormat('en-US').format(value)} />
+          <Tooltip formatter={formatCurrency} />
           <Legend />
           {cashFlowKeys.map((key, index) => (
             <Area
@@ -287,22 +324,23 @@ const DashboardPlots = () => {
     );
   };
 
-  // Plot 5: Trend line of fundamental ratios
-  const renderRatiosChart = () => {
-    const data = plotData.ratios || [];
+  // Plot 5: Trend line of margin ratios
+  const renderMarginsChart = () => {
+    const data = plotData.margins || [];
     
     return (
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="100%" height={500}>
         <LineChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="period" />
           <YAxis />
-          <Tooltip formatter={(value) => `${(value * 100).toFixed(1)}%`} />
+          <Tooltip formatter={formatPercentage} />
           <Legend />
-          <Line type="monotone" dataKey="pbditMargin" stroke={colorPalette.ratios[0]} strokeWidth={2} name="PBDIT Margin" />
-          <Line type="monotone" dataKey="pbtMargin" stroke={colorPalette.ratios[1]} strokeWidth={2} name="PBT Margin" />
-          <Line type="monotone" dataKey="netMargin" stroke={colorPalette.ratios[2]} strokeWidth={2} name="Net Margin" />
-          <Line type="monotone" dataKey="returnOnAssets" stroke={colorPalette.ratios[3]} strokeWidth={2} name="Return on Assets" />
+          <Line type="monotone" dataKey="PBDIT Margin (%)" stroke={colorPalette.margins[0]} strokeWidth={2} name="EBDIT Margin" />
+          <Line type="monotone" dataKey="PBT Margin (%)" stroke={colorPalette.margins[1]} strokeWidth={2} name="EBT Margin" />
+          <Line type="monotone" dataKey="Net Profit Margin (%)" stroke={colorPalette.margins[2]} strokeWidth={2} name="Net Profit Margin" />
+          <Line type="monotone" dataKey="Return on Capital Employed (%)" stroke={colorPalette.margins[3]} strokeWidth={2} name="ROCE" />
+          <Line type="monotone" dataKey="Return on Assets (%)" stroke={colorPalette.margins[4]} strokeWidth={2} name="ROA" />
         </LineChart>
       </ResponsiveContainer>
     );
@@ -313,16 +351,16 @@ const DashboardPlots = () => {
     const data = plotData.leverage || [];
     
     return (
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="100%" height={500}>
         <LineChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="period" />
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="currentRatio" stroke={colorPalette.leverage[0]} strokeWidth={2} name="Current Ratio" />
-          <Line type="monotone" dataKey="quickRatio" stroke={colorPalette.leverage[1]} strokeWidth={2} name="Quick Ratio" />
-          <Line type="monotone" dataKey="debtToEquity" stroke={colorPalette.leverage[2]} strokeWidth={2} name="Debt/Equity" />
+          <Line type="monotone" dataKey="Current Ratio (X)" stroke={colorPalette.leverage[0]} strokeWidth={2} name="Current Ratio" />
+          <Line type="monotone" dataKey="Quick Ratio (X)" stroke={colorPalette.leverage[1]} strokeWidth={2} name="Quick Ratio" />
+          <Line type="monotone" dataKey="Total Debt/Equity (X)" stroke={colorPalette.leverage[2]} strokeWidth={2} name="Debt/Equity" />
         </LineChart>
       </ResponsiveContainer>
     );
@@ -339,7 +377,7 @@ const DashboardPlots = () => {
       
       <div className="plots-grid">
         {renderPlot(
-          'assets_liabilities',
+          'assetsLiabilities',
           'Assets & Liabilities Overview',
           renderAssetsLiabilitiesChart()
         )}
@@ -357,20 +395,20 @@ const DashboardPlots = () => {
         )}
         
         {renderPlot(
-          'cash_flow',
+          'cashFlow',
           'Cash Flow Analysis',
           renderCashFlowChart()
         )}
         
         {renderPlot(
-          'ratios',
-          'Financial Ratios',
-          renderRatiosChart()
+          'margins',
+          'Margin & Return Ratios',
+          renderMarginsChart()
         )}
         
         {renderPlot(
           'leverage',
-          'Leverage Metrics',
+          'Leverage & Liquidity Ratios',
           renderLeverageChart()
         )}
       </div>
