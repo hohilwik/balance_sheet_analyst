@@ -431,13 +431,14 @@ def get_plot_data(plot_name):
             "data": []
         }), 500
 
-# LLM Chat route
+# LLM Chat route with Firecrawl integration
 @app.route('/api/chat', methods=['POST'])
 @jwt_required()
 def chat_with_llm():
     current_user = get_jwt_identity()
     data = request.json
     message = data.get('message')
+    use_web_search = data.get('use_web_search', False)
     
     if not message:
         return jsonify({'error': 'Message is required'}), 400
@@ -462,20 +463,132 @@ def chat_with_llm():
         with open(system_prompt_path, 'r') as f:
             system_prompt = f.read()
     
-    # Read API key
-    api_key = ""
-    api_path = "../../../api_deepseek.txt"
+    # Initialize web context
+    web_context = ""
+    web_sources = []
     
-    # Try multiple possible paths for the API key
-    possible_paths = [
-        api_path
+    # Firecrawl web search integration
+    if use_web_search:
+        try:
+            # Read Firecrawl API key
+            firecrawl_api_key = ""
+            firecrawl_api_paths = [
+                "../../../api_firecrawl.txt"
+            ]
+            
+            for path in firecrawl_api_paths:
+                if os.path.exists(path):
+                    try:
+                        with open(path, 'r') as f:
+                            firecrawl_api_key = f.read()
+                        break
+                    except Exception as e:
+                        print(f"Error reading Firecrawl API key from {path}: {e}")
+            
+            if not firecrawl_api_key:
+                web_context = "\n\nNote: Firecrawl API key not found. Web search disabled."
+            else:
+                from firecrawl import FirecrawlApp
+                firecrawl = FirecrawlApp(api_key=firecrawl_api_key)
+                
+                # Extract URLs from message if any
+                import re
+                urls = re.findall(r'https?://[^\s]+', message)
+                
+                if urls:
+                    # Scrape specific URLs provided in the message
+                    for url in urls[:2]:  # Limit to 2 URLs
+                        try:
+                            print(f"Scraping URL: {url}")
+                            scraped_data = firecrawl.scrape_url(
+                                url, 
+                                params={'formats': ['markdown']}
+                            )
+                            
+                            if scraped_data and 'markdown' in scraped_data:
+                                content = scraped_data['markdown']
+                                # Limit content length to avoid token limits
+                                if len(content) > 2000:
+                                    content = content[:2000] + "... [content truncated]"
+                                
+                                web_context += f"\n\n--- Content from {url} ---\n{content}"
+                                web_sources.append(url)
+                            else:
+                                web_context += f"\n\nCould not extract content from {url}"
+                                
+                        except Exception as scrape_error:
+                            print(f"Error scraping URL {url}: {scrape_error}")
+                            web_context += f"\n\nError fetching content from {url}: {str(scrape_error)}"
+                
+                else:
+                    # Perform web search based on the query
+                    try:
+                        print(f"Performing web search for: {message}")
+                        search_results = firecrawl.search(
+                            query=message,
+                            params={'limit': 3}  # Get top 3 results
+                        )
+                        
+                        if search_results and 'data' in search_results:
+                            web_context = "\n\n--- Recent Web Information ---"
+                            for i, result in enumerate(search_results['data'][:2]):  # Use top 2 results
+                                try:
+                                    url = result.get('url', '')
+                                    if url:
+                                        # Scrape each result for detailed content
+                                        scraped_data = firecrawl.scrape_url(
+                                            url, 
+                                            params={'formats': ['markdown']}
+                                        )
+                                        
+                                        if scraped_data and 'markdown' in scraped_data:
+                                            content = scraped_data['markdown']
+                                            # Limit content length
+                                            if len(content) > 1500:
+                                                content = content[:1500] + "... [content truncated]"
+                                            
+                                            web_context += f"\n\nSource {i+1} from {url}:\n{content}"
+                                            web_sources.append(url)
+                                        else:
+                                            # Fallback to description if scraping fails
+                                            description = result.get('description', 'No description available')
+                                            web_context += f"\n\nSource {i+1} from {url}:\n{description}"
+                                            
+                                except Exception as result_error:
+                                    print(f"Error processing search result: {result_error}")
+                                    description = result.get('description', 'Content unavailable')
+                                    web_context += f"\n\nSource {i+1} from {result.get('url', 'unknown')}:\n{description}"
+                        
+                        else:
+                            web_context = "\n\nNo relevant web results found for the query."
+                            
+                    except Exception as search_error:
+                        print(f"Firecrawl search error: {search_error}")
+                        web_context = f"\n\nWeb search unavailable: {str(search_error)}"
+                        
+        except ImportError:
+            web_context = "\n\nFirecrawl package not installed. Please install with: pip install firecrawl-py"
+        except Exception as e:
+            print(f"Unexpected error in web search: {e}")
+            web_context = f"\n\nWeb search temporarily unavailable: {str(e)}"
+    
+    # Build the final prompt
+    if web_context:
+        enhanced_system_prompt = system_prompt + "\n\nADDITIONAL CONTEXT: If the user asks about current events, market data, or recent news, use the following web information to provide up-to-date insights. Always cite your sources when using web information." + web_context
+    else:
+        enhanced_system_prompt = system_prompt
+    
+    # Read DeepSeek API key
+    api_key = ""
+    api_paths = [
+        "../../../api_deepseek.txt"
     ]
     
-    for path in possible_paths:
+    for path in api_paths:
         if os.path.exists(path):
             try:
                 with open(path, 'r') as f:
-                    api_key = f.read().strip()
+                    api_key = f.read()
                 break
             except Exception as e:
                 print(f"Error reading API key from {path}: {e}")
@@ -493,10 +606,10 @@ def chat_with_llm():
         payload = {
             'model': 'deepseek-reasoner',
             'messages': [
-                {'role': 'system', 'content': system_prompt},
+                {'role': 'system', 'content': enhanced_system_prompt},
                 {'role': 'user', 'content': message}
             ],
-            'stream': True,
+            'stream': False,
             'max_tokens': 28000
         }
         
@@ -504,7 +617,7 @@ def chat_with_llm():
             'https://api.deepseek.com/chat/completions',
             headers=headers,
             json=payload,
-            timeout=120  # 120 second timeout
+            timeout=120
         )
         
         if response.status_code == 200:
@@ -513,6 +626,8 @@ def chat_with_llm():
             
             return jsonify({
                 'response': llm_response,
+                'web_search_used': use_web_search and bool(web_context.strip()),
+                'web_sources': web_sources,
                 'usage': response_data.get('usage', {}),
                 'model': response_data.get('model', 'deepseek-reasoner')
             })
