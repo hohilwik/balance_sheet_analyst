@@ -1,163 +1,112 @@
-// version with better styling
-import React, { useState } from 'react';
-import './Chat.css';
+import React, { useState, useRef, useEffect } from 'react';
+import axios from 'axios';
 
-function ChatInterface() {
+const ChatInterface = () => {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
-  const [useWebSearch, setUseWebSearch] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const sendMessage = async () => {
-    if (!inputMessage.trim() || isLoading) return;
+    if (!inputMessage.trim()) return;
 
-    const userMessage = { role: 'user', content: inputMessage, webSearch: useWebSearch };
+    const userMessage = { role: 'user', content: inputMessage };
     setMessages(prev => [...prev, userMessage]);
     setInputMessage('');
-    setIsLoading(true);
+    setLoading(true);
 
     try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-        },
-        body: JSON.stringify({
-          message: inputMessage,
-          use_web_search: useWebSearch
-        })
+      const response = await axios.post('http://localhost:5000/api/chat', {
+        message: inputMessage
       });
 
-      const data = await response.json();
-      
-      if (response.ok) {
-        setMessages(prev => [...prev, { 
-          role: 'assistant', 
-          content: data.response,
-          webSearchUsed: data.web_search_used,
-          sources: data.web_sources || [],
-          timestamp: new Date().toLocaleTimeString()
-        }]);
-      } else {
-        setMessages(prev => [...prev, { 
-          role: 'assistant', 
-          content: `Error: ${data.error || 'Failed to get response'}`,
-          isError: true
-        }]);
-      }
-    } catch (error) {
-      setMessages(prev => [...prev, { 
+      const assistantMessage = { 
         role: 'assistant', 
-        content: 'Network error: Could not connect to server',
-        isError: true
-      }]);
+        content: response.data.response 
+      };
+      setMessages(prev => [...prev, assistantMessage]);
+    } catch (error) {
+      const errorMessage = { 
+        role: 'assistant', 
+        content: 'Sorry, I encountered an error. Please try again.' 
+      };
+      setMessages(prev => [...prev, errorMessage]);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
     }
   };
 
   return (
-    <div className="chat-container">
-      {/* Header with Web Search Toggle */}
-      <div className="chat-header">
-        <div className="header-content">
-          <h2>Financial Analyst</h2>
-          <div className="web-search-control">
-            <div className="toggle-container">
-              <label className="toggle-label">
-                <div className="toggle-switch">
-                  <input
-                    type="checkbox"
-                    checked={useWebSearch}
-                    onChange={(e) => setUseWebSearch(e.target.checked)}
-                    className="toggle-checkbox"
-                  />
-                  <span className="toggle-slider"></span>
-                </div>
-                <span className="toggle-text">
-                  {useWebSearch ? '🌐 Web Search ON' : '📊 Internal Data Only'}
-                </span>
-              </label>
-            </div>
-            <div className="toggle-description">
-              {useWebSearch ? 
-                "I'll search the web for current information" : 
-                "Using your company's financial data only"}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Messages Area */}
-      <div className="messages-container">
-        {messages.map((msg, index) => (
-          <div key={index} className={`message ${msg.role} ${msg.isError ? 'error' : ''}`}>
-            <div className="message-header">
-              <strong>{msg.role === 'user' ? 'You' : 'Financial Analyst'}</strong>
-              {msg.role === 'user' && msg.webSearch && (
-                <span className="web-search-indicator">🔍</span>
-              )}
-              {msg.timestamp && <span className="timestamp">{msg.timestamp}</span>}
-            </div>
-            <div className="message-content">{msg.content}</div>
-            {msg.webSearchUsed && msg.sources && msg.sources.length > 0 && (
-              <div className="web-sources">
-                <div className="sources-label">Information Sources:</div>
-                {msg.sources.map((source, i) => (
-                  <a key={i} href={source} target="_blank" rel="noopener noreferrer" className="source-link">
-                    {new URL(source).hostname}
-                  </a>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
-        {isLoading && (
-          <div className="message assistant loading">
-            <div className="message-content">
-              <div className="typing-indicator">
-                <span></span>
-                <span></span>
-                <span></span>
-                {useWebSearch && " Searching web..."}
-              </div>
-            </div>
+    <div className="chat-interface">
+      <h2>Ready For Comprehensive Financial Analysis</h2>
+      
+      <div className="chat-messages">
+        {messages.length === 0 && (
+          <div className="welcome-message">
+			TYPICAL REPORT FRAMEWORK:
+			1. Executive Summary - Key insights and risk assessment
+			2. Financial Health Scorecard - Critical metrics at a glance
+			3. Profitability Deep Dive - Fundamentals analysis of ROE drivers
+			4. Risk Assessment - Altman Z-score and solvency analysis
+			5. Strategic Implications - Business impact analysis
+			6. Recommendations - Actionable next steps
+			7. Questions to Consider - Strategic questions for leadership
+			
+			<h3>How can I assist with your financial analysis today?</h3>
           </div>
         )}
+        
+        {messages.map((message, index) => (
+          <div
+            key={index}
+            className={`message ${message.role === 'user' ? 'user-message' : 'assistant-message'}`}
+          >
+            {message.content}
+          </div>
+        ))}
+        
+        {loading && (
+          <div className="message assistant-message">
+            <div className="typing-indicator">Thinking...</div>
+          </div>
+        )}
+        
+        <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Area */}
-      <div className="input-container">
-        <div className="input-wrapper">
-          <input
-            type="text"
-            value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-            placeholder={
-              useWebSearch ? 
-                "Ask about current market trends, news, or financial data..." : 
-                "Ask about your company's financial data..."
-            }
-            disabled={isLoading}
-          />
-          <button 
-            onClick={sendMessage} 
-            disabled={!inputMessage.trim() || isLoading}
-            className="send-button"
-          >
-            {isLoading ? '...' : 'Send'}
-          </button>
-        </div>
-        <div className="input-hint">
-          {useWebSearch ? 
-            "Web search may take longer but provides current information" : 
-            "Quick responses using your company's data"}
-        </div>
+      <div className="chat-input">
+        <textarea
+          value={inputMessage}
+          onChange={(e) => setInputMessage(e.target.value)}
+          onKeyPress={handleKeyPress}
+          placeholder="Ask a question about your business data..."
+          rows="3"
+          disabled={loading}
+        />
+        <button 
+          onClick={sendMessage} 
+          disabled={loading || !inputMessage.trim()}
+        >
+          {loading ? 'Sending...' : 'Send'}
+        </button>
       </div>
     </div>
   );
-}
+};
 
 export default ChatInterface;

@@ -9,6 +9,9 @@ import json
 import requests
 from datetime import datetime, timedelta
 import uuid
+import shutil
+from pathlib import Path
+from fuzzywuzzy import process
 
 app = Flask(__name__)
 app.config['JWT_SECRET_KEY'] = 'your-secret-key-change-in-production'
@@ -65,11 +68,53 @@ def init_db():
 init_db()
 
 # Helper functions
+
+    
+
+
 def create_company_folder(company_id):
-    """Create company folder with sample CSV files"""
+    """Create company folder and copy scraped data if available"""
+    # Convert relative path to absolute path
+    template_dir = Path('../../../finance-scrape/output/mod_companies').resolve()
+    
     folder_path = f'company_data/{company_id}'
     os.makedirs(folder_path, exist_ok=True)
     
+    # Check if template folder exists
+    template_folder_path = template_dir / company_id
+    
+    if template_folder_path.exists() and template_folder_path.is_dir():
+        try:
+            # Copy all contents if exact match exists
+            shutil.copytree(template_folder_path, folder_path, dirs_exist_ok=True)
+            print(f"Copied template contents from '{template_folder_path}' to '{folder_path}'")
+        except Exception as e:
+            print(f"Error copying template contents: {e}")
+    else:
+        # Fuzzy matching fallback
+        print(f"No exact match found for '{company_id}', searching for nearest match...")
+        
+        # Get all available folders in template directory
+        available_folders = []
+        if template_dir.exists() and template_dir.is_dir():
+            available_folders = [f.name for f in template_dir.iterdir() if f.is_dir()]
+        
+        if available_folders:
+            # Find the best match using fuzzy matching
+            best_match, score = process.extractOne(company_id, available_folders)
+            
+            if score >= 80:  # Adjust threshold as needed
+                best_match_path = template_dir / best_match
+                try:
+                    shutil.copytree(best_match_path, folder_path, dirs_exist_ok=True)
+                    print(f"Copied from nearest match '{best_match}' (score: {score}) to '{folder_path}'")
+                except Exception as e:
+                    print(f"Error copying from nearest match: {e}")
+            else:
+                print(f"No suitable match found. Best match was '{best_match}' with score {score} (below threshold 80)")
+        else:
+            print(f"No template folders found in '{template_dir}'")
+        
     # Create dynamic system prompt for LLM
     system_prompt = generate_dynamic_system_prompt(company_id)
     
@@ -431,14 +476,13 @@ def get_plot_data(plot_name):
             "data": []
         }), 500
 
-# LLM Chat route with Firecrawl integration
+# LLM Chat route
 @app.route('/api/chat', methods=['POST'])
 @jwt_required()
 def chat_with_llm():
     current_user = get_jwt_identity()
     data = request.json
     message = data.get('message')
-    use_web_search = data.get('use_web_search', False)
     
     if not message:
         return jsonify({'error': 'Message is required'}), 400
@@ -459,132 +503,22 @@ def chat_with_llm():
     # Read system prompt
     system_prompt = "You are an experienced financial analyst briefing the company C-suite about the company's financials, income sources, expense streams, and future growth/profit prospects, while keeping in mind risk assessment of the state of the financials. Be respectful and professional. Do not use any emoji. Do not lecture the user. Concisely debrief the C-suite on the finances of the company."
     
+    system_prompt = generate_dynamic_system_prompt(company_id)
+    
     if os.path.exists(system_prompt_path):
         with open(system_prompt_path, 'r') as f:
             system_prompt = f.read()
     
-    # Initialize web context
-    web_context = ""
-    web_sources = []
-    
-    # Firecrawl web search integration
-    if use_web_search:
-        try:
-            # Read Firecrawl API key
-            firecrawl_api_key = ""
-            firecrawl_api_paths = [
-                "../../../api_firecrawl.txt"
-            ]
-            
-            for path in firecrawl_api_paths:
-                if os.path.exists(path):
-                    try:
-                        with open(path, 'r') as f:
-                            firecrawl_api_key = f.read()
-                        break
-                    except Exception as e:
-                        print(f"Error reading Firecrawl API key from {path}: {e}")
-            
-            if not firecrawl_api_key:
-                web_context = "\n\nNote: Firecrawl API key not found. Web search disabled."
-            else:
-                from firecrawl import FirecrawlApp
-                firecrawl = FirecrawlApp(api_key=firecrawl_api_key)
-                
-                # Extract URLs from message if any
-                import re
-                urls = re.findall(r'https?://[^\s]+', message)
-                
-                if urls:
-                    # Scrape specific URLs provided in the message
-                    for url in urls[:2]:  # Limit to 2 URLs
-                        try:
-                            print(f"Scraping URL: {url}")
-                            scraped_data = firecrawl.scrape_url(
-                                url, 
-                                params={'formats': ['markdown']}
-                            )
-                            
-                            if scraped_data and 'markdown' in scraped_data:
-                                content = scraped_data['markdown']
-                                # Limit content length to avoid token limits
-                                if len(content) > 2000:
-                                    content = content[:2000] + "... [content truncated]"
-                                
-                                web_context += f"\n\n--- Content from {url} ---\n{content}"
-                                web_sources.append(url)
-                            else:
-                                web_context += f"\n\nCould not extract content from {url}"
-                                
-                        except Exception as scrape_error:
-                            print(f"Error scraping URL {url}: {scrape_error}")
-                            web_context += f"\n\nError fetching content from {url}: {str(scrape_error)}"
-                
-                else:
-                    # Perform web search based on the query
-                    try:
-                        print(f"Performing web search for: {message}")
-                        search_results = firecrawl.search(
-                            query=message,
-                            params={'limit': 3}  # Get top 3 results
-                        )
-                        
-                        if search_results and 'data' in search_results:
-                            web_context = "\n\n--- Recent Web Information ---"
-                            for i, result in enumerate(search_results['data'][:2]):  # Use top 2 results
-                                try:
-                                    url = result.get('url', '')
-                                    if url:
-                                        # Scrape each result for detailed content
-                                        scraped_data = firecrawl.scrape_url(
-                                            url, 
-                                            params={'formats': ['markdown']}
-                                        )
-                                        
-                                        if scraped_data and 'markdown' in scraped_data:
-                                            content = scraped_data['markdown']
-                                            # Limit content length
-                                            if len(content) > 1500:
-                                                content = content[:1500] + "... [content truncated]"
-                                            
-                                            web_context += f"\n\nSource {i+1} from {url}:\n{content}"
-                                            web_sources.append(url)
-                                        else:
-                                            # Fallback to description if scraping fails
-                                            description = result.get('description', 'No description available')
-                                            web_context += f"\n\nSource {i+1} from {url}:\n{description}"
-                                            
-                                except Exception as result_error:
-                                    print(f"Error processing search result: {result_error}")
-                                    description = result.get('description', 'Content unavailable')
-                                    web_context += f"\n\nSource {i+1} from {result.get('url', 'unknown')}:\n{description}"
-                        
-                        else:
-                            web_context = "\n\nNo relevant web results found for the query."
-                            
-                    except Exception as search_error:
-                        print(f"Firecrawl search error: {search_error}")
-                        web_context = f"\n\nWeb search unavailable: {str(search_error)}"
-                        
-        except ImportError:
-            web_context = "\n\nFirecrawl package not installed. Please install with: pip install firecrawl-py"
-        except Exception as e:
-            print(f"Unexpected error in web search: {e}")
-            web_context = f"\n\nWeb search temporarily unavailable: {str(e)}"
-    
-    # Build the final prompt
-    if web_context:
-        enhanced_system_prompt = system_prompt + "\n\nADDITIONAL CONTEXT: If the user asks about current events, market data, or recent news, use the following web information to provide up-to-date insights. Always cite your sources when using web information." + web_context
-    else:
-        enhanced_system_prompt = system_prompt
-    
-    # Read DeepSeek API key
+    # Read API key
     api_key = ""
-    api_paths = [
-        "../../../api_deepseek.txt"
+    api_path = "../../../api_deepseek.txt"
+    
+    # Try multiple possible paths for the API key
+    possible_paths = [
+        api_path
     ]
     
-    for path in api_paths:
+    for path in possible_paths:
         if os.path.exists(path):
             try:
                 with open(path, 'r') as f:
@@ -594,7 +528,7 @@ def chat_with_llm():
                 print(f"Error reading API key from {path}: {e}")
     
     if not api_key:
-        return jsonify({'error': 'DeepSeek API key not found. Please ensure api_deepseek.txt exists with your API key.'}), 500
+        return jsonify({'error': 'DeepSeek API key not found. Please ensure api_deepseek.txt exists with your API key.'}), 600
     
     # DeepSeek API call
     try:
@@ -606,18 +540,18 @@ def chat_with_llm():
         payload = {
             'model': 'deepseek-reasoner',
             'messages': [
-                {'role': 'system', 'content': enhanced_system_prompt},
+                {'role': 'system', 'content': system_prompt},
                 {'role': 'user', 'content': message}
             ],
             'stream': False,
-            'max_tokens': 28000
+            'max_tokens': 32000
         }
         
         response = requests.post(
             'https://api.deepseek.com/chat/completions',
             headers=headers,
             json=payload,
-            timeout=120
+            timeout=120  # 120 second timeout
         )
         
         if response.status_code == 200:
@@ -626,8 +560,6 @@ def chat_with_llm():
             
             return jsonify({
                 'response': llm_response,
-                'web_search_used': use_web_search and bool(web_context.strip()),
-                'web_sources': web_sources,
                 'usage': response_data.get('usage', {}),
                 'model': response_data.get('model', 'deepseek-reasoner')
             })
