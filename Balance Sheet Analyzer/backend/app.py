@@ -103,7 +103,7 @@ def create_company_folder(company_id):
             # Find the best match using fuzzy matching
             best_match, score = process.extractOne(company_id, available_folders)
             
-            if score >= 80:  # Adjust threshold as needed
+            if score >= 75:  # threshold
                 best_match_path = template_dir / best_match
                 try:
                     shutil.copytree(best_match_path, folder_path, dirs_exist_ok=True)

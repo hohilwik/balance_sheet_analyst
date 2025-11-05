@@ -1,0 +1,270 @@
+You are "FinAnalyst AI", an expert financial analyst with 20+ years of experience analyzing company financial statements. You specialize in interpreting financial data, identifying trends, assessing company health, and providing strategic insights to C-suite executives. Be professional. Do not use emoji. When you don't know something, look it up on the web. Look up additional financial statements on Money Control.
+
+### ENHANCED ANALYTICAL CAPABILITIES
+You now have access to advanced financial analysis tools including:
+
+DUPONT ANALYSIS - Breakdown of Return on Equity (ROE):
+- ROE = Net Profit Margin × Asset Turnover × Equity Multiplier
+- 5-part analysis: Tax Burden × Interest Burden × EBIT Margin × Asset Turnover × Equity Multiplier
+- Helps identify drivers of shareholder returns
+
+ALTMAN Z-SCORE - Bankruptcy Risk Assessment:
+- Z-Score > 2.99: Safe Zone
+- Z-Score 1.81-2.99: Grey Zone  
+- Z-Score < 1.81: Distress Zone
+- Components: Working Capital/Assets, Retained Earnings/Assets, EBIT/Assets, Market Equity/Liabilities, Sales/Assets
+
+COMPREHENSIVE RATIO ANALYSIS covering:
+- Profitability, Liquidity, Solvency, Efficiency, and Market ratios
+
+### ENHANCED RESPONSE FRAMEWORK
+Structure your responses using this framework:
+
+1. EXECUTIVE SUMMARY - Key insights including risk assessment
+2. FINANCIAL HEALTH SCORECARD - Key metrics at a glance
+3. PROFITABILITY DEEP DIVE - Dupont analysis of ROE drivers
+4. RISK ASSESSMENT - Altman Z-score and solvency analysis
+5. STRATEGIC IMPLICATIONS - What this means for decision-making
+6. RECOMMENDATIONS - Actionable next steps
+7. QUESTIONS TO CONSIDER - Strategic questions for leadership
+
+### DUPONT ANALYSIS INTERPRETATION GUIDE
+When analyzing Dupont components:
+- High ROE driven by high margins: Premium positioning, pricing power
+- High ROE driven by high turnover: Operational efficiency, scale
+- High ROE driven by high leverage: Financial risk, dependent on debt
+- Declining ROE: Investigate which component is deteriorating
+- Investigate whether growth is driven by positive cash flow or by debt. Assess risk of Fed interest rate hikes on the financial health of the company if the debt burden is significant
+
+### ALTMAN Z-SCORE INTERPRETATION
+- Safe Zone (>2.99): Low bankruptcy risk, financial stability
+- Grey Zone (1.81-2.99): Moderate risk, requires monitoring
+- Distress Zone (<1.81): High bankruptcy risk, urgent action needed
+
+### TYPICAL ENHANCED QUERIES YOU CAN HANDLE
+- "What's driving our ROE performance?"
+- "How sustainable is our current profitability?"
+- "What's our bankruptcy risk according to Altman Z-score?"
+- "Which Dupont component should we focus on to improve ROE?"
+- "How does our financial risk compare to industry peers?"
+- "What's the breakdown of our shareholder returns?"
+
+### COMMUNICATION ENHANCEMENTS
+- Use Dupont analysis to explain the "why" behind ROE movements
+- Incorporate Z-scores in risk discussions with clear implications
+- Connect analytical findings to strategic business decisions
+- Highlight both opportunities and risks with data-driven evidence
+
+You are now equipped to provide comprehensive financial analysis including advanced profitability decomposition and bankruptcy risk assessment. Be professional. Do not use emoji. When you don't know something, look it up on the web. Look up additional financial statements on Money Control.
+Balance Sheet of Housing Development Finance Corporation (in Rs. Cr.)     Mar 22     Mar 21     Mar 20     Mar 19     Mar 18 -- --.1
+                                                                   --    12 mths    12 mths    12 mths    12 mths    12 mths --   --
+                                             EQUITIES AND LIABILITIES         --         --         --         --         -- --   --
+                                                  SHAREHOLDER'S FUNDS         --         --         --         --         -- --   --
+                                                 Equity Share Capital     362.61     360.79     346.41     344.29     335.18 --   --
+                                                  Total Share Capital     362.61     360.79     346.41     344.29     335.18 --   --
+                                                 Reserves and Surplus 119,581.36 108,114.83  84,802.23  77,011.18  63,941.74 --   --
+                                           Total Reserves and Surplus 119,581.36 108,114.83  84,802.23  77,011.18  63,941.74 --   --
+                                             Total Shareholders Funds 120,251.00 108,782.65  86,158.06  77,355.47  65,264.91 --   --
+                                              NON-CURRENT LIABILITIES         --         --         --         --         -- --   --
+                                                 Long Term Borrowings 359,829.39 336,185.86 314,193.00 287,598.14 272,913.25 --   --
+                                       Deferred Tax Liabilities [Net]       0.00       0.00       0.00       0.00       0.00 --   --
+                                          Other Long Term Liabilities   1,964.08   2,207.89   2,159.37     922.73     751.68 --   --
+                                                 Long Term Provisions     270.02     251.29     260.54     209.55     182.54 --   --
+                                        Total Non-Current Liabilities 362,063.49 338,645.04 316,612.91 288,730.42 273,847.47 --   --
+                                                  CURRENT LIABILITIES         --         --         --         --         -- --   --
+                                                Short Term Borrowings 139,851.75 105,179.18 104,908.64  77,667.54  46,802.44 --   --
+                                                       Trade Payables     344.17     339.15     196.80     190.17     207.59 --   --
+                                            Other Current Liabilities  18,352.05  14,652.56  16,217.15  14,833.95  12,787.18 --   --
+                                                Short Term Provisions       0.00       0.00       0.00       0.00       0.00 --   --
+                                            Total Current Liabilities 158,547.97 120,170.89 121,322.59  92,691.66  59,797.21 --   --
+                                        Total Capital And Liabilities 640,862.46 567,598.58 524,093.56 458,777.55 398,909.59 --   --
+                                                               ASSETS         --         --         --         --         -- --   --
+                                                   NON-CURRENT ASSETS         --         --         --         --         -- --   --
+                                                      Tangible Assets   1,073.94     986.42     986.10     644.23     639.71 --   --
+                                                    Intangible Assets     369.91     369.46     362.85       7.10       4.79 --   --
+                                             Capital Work-In-Progress       0.00       0.00       0.00       0.00       0.00 --   --
+                                                         Other Assets   2,685.74     840.57     890.43     321.32     395.13 --   --
+                                                         Fixed Assets   4,129.59   2,196.45   2,239.38     972.65   1,039.63 --   --
+                                              Non-Current Investments       0.00       0.00       0.00       0.00       0.00 --   --
+                                            Deferred Tax Assets [Net]   1,549.88   1,655.30   1,567.94     830.91   1,279.50 --   --
+                                         Long Term Loans And Advances       0.00       0.00       0.00       0.00       0.00 --   --
+                                             Other Non-Current Assets   3,816.13   2,688.52   3,291.55   2,893.20   3,493.94 --   --
+                                             Total Non-Current Assets   9,495.60   6,540.27   7,098.87   4,696.76   5,813.07 --   --
+                                                       CURRENT ASSETS         --         --         --         --         -- --   --
+                                                  Current Investments  68,592.22  68,636.77  64,944.37  46,240.35  30,716.73 --   --
+                                                          Inventories       0.00       0.00       0.00       0.00       0.00 --   --
+                                                    Trade Receivables     178.65     155.38     230.06     186.86     103.45 --   --
+                                            Cash And Cash Equivalents     792.93   1,144.75   3,425.69   1,596.26   1,485.07 --   --
+                                        Short Term Loans And Advances 554,862.51 485,294.26 439,943.28 400,759.63 357,380.86 --   --
+                                                   OtherCurrentAssets   6,940.55   5,827.15   8,451.29   5,297.69   3,410.41 --   --
+                                                 Total Current Assets 631,366.86 561,058.31 516,994.69 454,080.79 393,096.52 --   --
+                                                         Total Assets 640,862.46 567,598.58 524,093.56 458,777.55 398,909.59 --   --
+                                         OTHER ADDITIONAL INFORMATION         --         --         --         --         -- --   --
+                                  CONTINGENT LIABILITIES, COMMITMENTS         --         --         --         --         -- --   --
+                                               Contingent Liabilities   5,443.75   4,377.35   4,693.84   5,069.77   4,946.01 --   --
+                                                 CIF VALUE OF IMPORTS         --         --         --         --         -- --   --
+                                                        Raw Materials       0.00       0.00       0.00       0.00       0.00 --   --
+                                       Stores, Spares And Loose Tools       0.00       0.00       0.00       0.00       0.00 --   --
+                                                    Trade/Other Goods       0.00       0.00       0.00       0.00       0.00 --   --
+                                                        Capital Goods       0.00       0.00       0.00       0.00       0.00 --   --
+                                      EXPENDITURE IN FOREIGN EXCHANGE         --         --         --         --         -- --   --
+                                      Expenditure In Foreign Currency     448.00     782.00   1,205.00   1,367.00       0.00 --   --
+                      REMITTANCES IN FOREIGN CURRENCIES FOR DIVIDENDS         --         --         --         --         -- --   --
+                              Dividend Remittance In Foreign Currency         --         --         --         --         -- --   --
+                                         EARNINGS IN FOREIGN EXCHANGE         --         --         --         --         -- --   --
+                                                   FOB Value Of Goods         --         --         --         --         -- --   --
+                                                       Other Earnings       0.04       2.00       4.00       8.00         -- --   --
+                                                        BONUS DETAILS         --         --         --         --         -- --   --
+                                           Bonus Equity Share Capital     121.96     121.96     121.96     121.96     121.96 --   --
+                                              NON-CURRENT INVESTMENTS         --         --         --         --         -- --   --
+                          Non-Current Investments Quoted Market Value         --         --         --         --         -- --   --
+                          Non-Current Investments Unquoted Book Value         --         --         --         --         -- --   --
+                                                  CURRENT INVESTMENTS         --         --         --         --         -- --   --
+                              Current Investments Quoted Market Value         --         --         --         --         -- --   --
+                              Current Investments Unquoted Book Value  68,592.22  68,636.77  64,944.37         --  30,716.73 --   --
+ Profit & Loss account of Housing Development Finance Corporation (in Rs. Cr.)    Mar 22    Mar 21    Mar 20    Mar 19    Mar 18 -- --.1
+                                                                            --   12 mths   12 mths   12 mths   12 mths   12 mths --   --
+                                                                        INCOME        --        --        --        --        -- --   --
+                                               Revenue From Operations [Gross] 47,957.07 48,149.74 58,738.92 43,348.04 40,689.22 --   --
+                                          Less: Excise/Sevice Tax/Other Levies      0.00      0.00      0.00      0.00      0.00 --   --
+                                                 Revenue From Operations [Net] 47,957.07 48,149.74 58,738.92 43,348.04 40,689.22 --   --
+                                                      Total Operating Revenues 47,957.07 48,149.74 58,738.92 43,348.04 40,689.22 --   --
+                                                                  Other Income     33.13     26.12     24.42     29.97     18.27 --   --
+                                                                 Total Revenue 47,990.20 48,175.86 58,763.34 43,378.01 40,707.49 --   --
+                                                                      EXPENSES        --        --        --        --        -- --   --
+                                                    Cost Of Materials Consumed      0.00      0.00      0.00      0.00      0.00 --   --
+                                                   Purchase Of Stock-In Trade       0.00      0.00      0.00      0.00      0.00 --   --
+                                                 Operating And Direct Expenses      0.00      0.00      0.00      0.00      0.00 --   --
+                           Changes In Inventories Of FG,WIP And Stock-In Trade      0.00      0.00      0.00      0.00      0.00 --   --
+                                                     Employee Benefit Expenses  1,060.79    914.11    592.92    716.53  1,372.09 --   --
+                                                                 Finance Costs 26,739.21 28,614.76 31,001.36 27,837.67 23,497.98 --   --
+                                        Depreciation And Amortisation Expenses    172.29    158.78    147.74     66.53     49.24 --   --
+                                                                Other Expenses    839.60    725.12    757.30    703.51    483.54 --   --
+                                                                Total Expenses 30,743.89 33,360.77 38,412.42 30,259.24 27,517.85 --   --
+                   Profit/Loss Before Exceptional, ExtraOrdinary Items And Tax 17,246.31 14,815.09 20,350.92 13,118.77 13,189.64 --   --
+                                                             Exceptional Items      0.00      0.00      0.00      0.00      0.00 --   --
+                                                        Profit/Loss Before Tax 17,246.31 14,815.09 20,350.92 13,118.77 13,189.64 --   --
+                                             Tax Expenses-Continued Operations        --        --        --        --        -- --   --
+                                                                   Current Tax  3,514.25  3,040.65  2,571.68  3,307.11  3,212.65 --   --
+                                                  Less: MAT Credit Entitlement      0.00      0.00      0.00      0.00      0.00 --   --
+                                                                  Deferred Tax    -10.12   -252.86      9.59    179.20   -982.35 --   --
+                                                         Tax For Earlier Years      0.00      0.00      0.00      0.00      0.00 --   --
+                                                            Total Tax Expenses  3,504.13  2,787.79  2,581.27  3,486.31  2,230.30 --   --
+                          Profit/Loss After Tax And Before ExtraOrdinary Items 13,742.18 12,027.30 17,769.65  9,632.46 10,959.34 --   --
+                                        Profit/Loss From Continuing Operations 13,742.18 12,027.30 17,769.65  9,632.46 10,959.34 --   --
+                                                    Profit/Loss For The Period 13,742.18 12,027.30 17,769.65  9,632.46 10,959.34 --   --
+                                                  OTHER ADDITIONAL INFORMATION        --        --        --        --        -- --   --
+                                                            EARNINGS PER SHARE        --        --        --        --        -- --   --
+                                                               Basic EPS (Rs.)     76.01     67.77    102.91     56.53     67.31 --   --
+                                                             Diluted EPS (Rs.)     75.20     67.20    102.12     56.53     66.48 --   --
+VALUE OF IMPORTED AND INDIGENIOUS RAW MATERIALS STORES, SPARES AND LOOSE TOOLS        --        --        --        --        -- --   --
+                                                        Imported Raw Materials      0.00      0.00      0.00      0.00      0.00 --   --
+                                                      Indigenous Raw Materials      0.00      0.00      0.00      0.00      0.00 --   --
+                                                STORES, SPARES AND LOOSE TOOLS        --        --        --        --        -- --   --
+                                                    Imported Stores And Spares      0.00      0.00      0.00      0.00      0.00 --   --
+                                                  Indigenous Stores And Spares      0.00      0.00      0.00      0.00      0.00 --   --
+                                              DIVIDEND AND DIVIDEND PERCENTAGE        --        --        --        --        -- --   --
+                                                         Equity Share Dividend  4,152.65  3,642.68  3,600.63  3,615.04  3,351.80 --   --
+                                                               Tax On Dividend      0.00      0.00      0.00    349.48    102.69 --   --
+                                                      Equity Dividend Rate (%)  1,500.00  1,150.00  1,050.00  1,050.00  1,000.00 --   --
+ Yearly Results of Housing Development Finance Corporation (in Rs. Cr.)    Mar '22    Mar '21   Mar '20   Mar '19   Mar '18 -- --.1
+                                       Net Sales/Income from operations  47,957.07  48,149.74 58,738.92 43,348.04 34,807.10 --   --
+                                                 Other Operating Income         --         --        --        --    378.07 --   --
+                                           Total Income From Operations  47,957.07  48,149.74 58,738.92 43,348.04 35,185.17 --   --
+                                                            EXPENDITURE         --         --        --        --        -- --   --
+                                           Consumption of Raw Materials         --         --        --        --        -- --   --
+                                               Purchase of Traded Goods         --         --        --        --        -- --   --
+                                            Increase/Decrease in Stocks         --         --        --        --        -- --   --
+                                                           Power & Fuel         --         --        --        --        -- --   --
+                                                         Employees Cost   1,060.79     914.11    592.92    716.53    425.47 --   --
+                                                           Depreciation     172.29     158.78    147.74     66.53     49.24 --   --
+                                                            Excise Duty         --         --        --        --        -- --   --
+                                            Admin. And Selling Expenses         --         --        --        --        -- --   --
+                                                         R & D Expenses         --         --        --        --        -- --   --
+                                           Provisions And Contingencies   1,932.00   2,948.00  5,913.10    935.00    455.00 --   --
+                                                       Exp. Capitalised         --         --        --        --        -- --   --
+                                                         Other Expenses     839.60     725.12    757.30    703.51    483.08 --   --
+                       P/L Before Other Inc. , Int., Excpt. Items & Tax  43,952.39  43,403.73 51,327.86 40,926.47 33,772.38 --   --
+                                                           Other Income      33.13      26.12     24.42     29.97     44.72 --   --
+                                    P/L Before Int., Excpt. Items & Tax  43,985.52  43,429.85 51,352.28 40,956.44 33,817.10 --   --
+                                                               Interest  26,739.21  28,614.76 31,001.36 27,837.67 22,235.00 --   --
+                                     P/L Before Exceptional Items & Tax  17,246.31  14,815.09 20,350.92 13,118.77 11,582.10 --   --
+                                                      Exceptional Items         --         --        --        --  3,681.59 --   --
+                                                         P/L Before Tax  17,246.31  14,815.09 20,350.92 13,118.77 15,263.69 --   --
+                                                                    Tax   3,504.13   2,787.79  2,581.27  3,486.31  3,100.00 --   --
+                                 P/L After Tax from Ordinary Activities  13,742.18  12,027.30 17,769.65  9,632.46 12,163.69 --   --
+                                                 Prior Year Adjustments         --         --        --        --        -- --   --
+                                                   Extra Ordinary Items         --         --        --        --        -- --   --
+                                       Net Profit/(Loss) For the Period  13,742.18  12,027.30 17,769.65  9,632.46 12,163.69 --   --
+                                                   Equity Share Capital     362.61     360.79    346.41    344.29    335.18 --   --
+                                Reserves Excluding Revaluation Reserves 119,581.36 108,114.83 84,802.23 77,011.18 63,941.74 --   --
+                                               Equity Dividend Rate (%)   1,500.00   1,150.00  1,050.00  1,050.00  1,000.00 --   --
+                                              EPS Before Extra Ordinary         --         --        --        --        -- --   --
+                                                              Basic EPS      76.01      67.77    102.91     56.53     74.83 --   --
+                                                            Diluted EPS      75.20      67.20    102.12     56.08     73.73 --   --
+                                               EPS After Extra Ordinary         --         --        --        --        -- --   --
+                                                             Basic EPS.      76.01      67.77    102.91     56.53     74.83 --   --
+                                                           Diluted EPS.      75.20      67.20    102.12     56.08     73.73 --   --
+                                                   Public Share Holding         --         --        --        --        -- --   --
+                                                  No Of Shares (Crores)         --         --        --        --        -- --   --
+                                                      Share Holding (%)         --         --        --        --        -- --   --
+                              Promoters and Promoter Group Shareholding         --         --        --        --        -- --   --
+                                                  a) Pledged/Encumbered         --         --        --        --        -- --   --
+                                            - Number of shares (Crores)         --         --        --        --        -- --   --
+ - Per. of shares (as a % of the total sh. of prom. and promoter group)         --         --        --        --        -- --   --
+       - Per. of shares (as a % of the total Share Cap. of the company)         --         --        --        --        -- --   --
+                                                      b) Non-encumbered         --         --        --        --        -- --   --
+                                           - Number of shares (Crores).         --         --        --        --        -- --   --
+- Per. of shares (as a % of the total sh. of prom. and promoter group).         --         --        --        --        -- --   --
+      - Per. of shares (as a % of the total Share Cap. of the company).         --         --        --        --        -- --   --
+Cash Flow of Housing Development Finance Corporation (in Rs. Cr.)     Mar 22     Mar 21     Mar 20     Mar 19     Mar 18 -- --.1
+                                                               --    12 mths    12 mths    12 mths    12 mths    12 mths --   --
+               Net Profit/Loss Before Extraordinary Items And Tax  17,246.31  14,815.09  20,350.92  13,118.77  13,189.64 --   --
+                           Net CashFlow From Operating Activities -44,409.77 -28,473.19 -43,816.79 -40,095.72 -55,903.95 --   --
+                            Net Cash Used In Investing Activities -14,571.88  -8,499.78  -5,854.23  -9,951.80  -3,586.61 --   --
+                          Net Cash Used From Financing Activities  58,777.17  34,601.06  52,452.10  49,176.19  56,505.58 --   --
+                                  Foreign Exchange Gains / Losses       0.00       0.00       0.00       0.00       0.00 --   --
+               Adjustments On Amalgamation Merger Demerger Others       0.00       0.00       0.00       0.00       0.00 --   --
+                         Net Inc/Dec In Cash And Cash Equivalents    -204.48  -2,371.91   2,781.08    -871.33  -2,984.98 --   --
+                          Cash And Cash Equivalents Begin of Year     769.97   3,141.88     360.80   1,232.13   4,217.12 --   --
+                            Cash And Cash Equivalents End Of Year     565.49     769.97   3,141.88     360.80   1,232.14 --   --
+Key Financial Ratios of Housing Development Finance Corporation (in Rs. Cr.)     Mar 22     Mar 21     Mar 20     Mar 19     Mar 18 -- --.1
+                                                            Per Share Ratios         --         --         --         --         -- --   --
+                                                             Basic EPS (Rs.)      76.01      67.77     102.91      56.53      67.31 --   --
+                                                           Diluted EPS (Rs.)      75.20      67.20     102.12      56.53      66.48 --   --
+                                                              Cash EPS (Rs.)      76.75      67.55     103.45      56.34      65.69 --   --
+                                   Book Value [ExclRevalReserve]/Share (Rs.)     663.25     603.02     497.43     449.36     389.43 --   --
+                                   Book Value [InclRevalReserve]/Share (Rs.)     663.25     603.02     497.43     449.36     389.43 --   --
+                                                       Dividend / Share(Rs.)      30.00      23.00      21.00      21.00      20.00 --   --
+                                         Revenue from Operations/Share (Rs.)     264.51     266.91     339.13     251.81     242.79 --   --
+                                                           PBDIT/Share (Rs.)     243.56     241.63     297.34     238.30     219.21 --   --
+                                                            PBIT/Share (Rs.)     242.61     240.75     296.48     237.92     218.91 --   --
+                                                             PBT/Share (Rs.)      95.12      82.13     117.50      76.21      78.70 --   --
+                                                      Net Profit/Share (Rs.)      75.80      66.67     102.59      55.96      65.39 --   --
+                                                        Profitability Ratios         --         --         --         --         -- --   --
+                                                            PBDIT Margin (%)      92.07      90.52      87.67      94.63      90.28 --   --
+                                                             PBIT Margin (%)      91.71      90.19      87.42      94.48      90.16 --   --
+                                                              PBT Margin (%)      35.96      30.76      34.64      30.26      32.41 --   --
+                                                       Net Profit Margin (%)      28.65      24.97      30.25      22.22      26.93 --   --
+                                             Return on Networth / Equity (%)      11.42      11.05      20.62      12.45      16.79 --   --
+                                              Return on Capital Employed (%)       9.11       9.70      12.74      11.18      10.81 --   --
+                                                        Return on Assets (%)       2.14       2.11       3.39       2.09       2.74 --   --
+                                                       Total Debt/Equity (X)       4.16       4.06       4.86       4.72       4.90 --   --
+                                                    Asset Turnover Ratio (%)       0.08       0.09      11.20       9.44      10.20 --   --
+                                                            Liquidity Ratios         --         --         --         --         -- --   --
+                                                           Current Ratio (X)       3.98       4.67       4.26       4.90       6.57 --   --
+                                                             Quick Ratio (X)       3.98       4.67       4.26       4.90       6.57 --   --
+                                                Inventory Turnover Ratio (X)       0.00       0.00       0.00       0.00       0.00 --   --
+                                              Dividend Payout Ratio (NP) (%)      30.21      30.28      20.26      37.52      30.58 --   --
+                                              Dividend Payout Ratio (CP) (%)      29.84      29.89      20.09      37.27      30.44 --   --
+                                                Earnings Retention Ratio (%)      69.79      69.72      79.74      62.48      69.42 --   --
+                                           Cash Earnings Retention Ratio (%)      70.16      70.11      79.91      62.73      69.56 --   --
+                                                            Valuation Ratios         --         --         --         --         -- --   --
+                                                      Enterprise Value (Cr.) 931,962.40 891,018.38 698,078.04 702,330.28 623,981.82 --   --
+                                                EV/Net Operating Revenue (X)      19.43      18.51      11.88      16.20      15.34 --   --
+                                                               EV/EBITDA (X)      21.11      20.44      13.55      17.12      16.99 --   --
+                                         MarketCap/Net Operating Revenue (X)       9.03       9.36       4.81       7.81       7.51 --   --
+                                                        Retention Ratios (%)      69.78      69.71      79.73      62.47      69.41 --   --
+                                                                Price/BV (X)       3.60       4.14       3.28       4.38       4.68 --   --
+                                                 Price/Net Operating Revenue       9.03       9.36       4.81       7.81       7.51 --   --
+                                                              Earnings Yield       0.03       0.03       0.06       0.03       0.04 --   --

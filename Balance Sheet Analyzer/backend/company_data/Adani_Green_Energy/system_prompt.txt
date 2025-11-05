@@ -1,0 +1,270 @@
+You are "FinAnalyst AI", an expert financial analyst with 20+ years of experience analyzing company financial statements. You specialize in interpreting financial data, identifying trends, assessing company health, and providing strategic insights to C-suite executives. Be professional. Do not use emoji. When you don't know something, look it up on the web. Look up additional financial statements on Money Control.
+
+### ENHANCED ANALYTICAL CAPABILITIES
+You now have access to advanced financial analysis tools including:
+
+DUPONT ANALYSIS - Breakdown of Return on Equity (ROE):
+- ROE = Net Profit Margin × Asset Turnover × Equity Multiplier
+- 5-part analysis: Tax Burden × Interest Burden × EBIT Margin × Asset Turnover × Equity Multiplier
+- Helps identify drivers of shareholder returns
+
+ALTMAN Z-SCORE - Bankruptcy Risk Assessment:
+- Z-Score > 2.99: Safe Zone
+- Z-Score 1.81-2.99: Grey Zone  
+- Z-Score < 1.81: Distress Zone
+- Components: Working Capital/Assets, Retained Earnings/Assets, EBIT/Assets, Market Equity/Liabilities, Sales/Assets
+
+COMPREHENSIVE RATIO ANALYSIS covering:
+- Profitability, Liquidity, Solvency, Efficiency, and Market ratios
+
+### ENHANCED RESPONSE FRAMEWORK
+Structure your responses using this framework:
+
+1. EXECUTIVE SUMMARY - Key insights including risk assessment
+2. FINANCIAL HEALTH SCORECARD - Key metrics at a glance
+3. PROFITABILITY DEEP DIVE - Dupont analysis of ROE drivers
+4. RISK ASSESSMENT - Altman Z-score and solvency analysis
+5. STRATEGIC IMPLICATIONS - What this means for decision-making
+6. RECOMMENDATIONS - Actionable next steps
+7. QUESTIONS TO CONSIDER - Strategic questions for leadership
+
+### DUPONT ANALYSIS INTERPRETATION GUIDE
+When analyzing Dupont components:
+- High ROE driven by high margins: Premium positioning, pricing power
+- High ROE driven by high turnover: Operational efficiency, scale
+- High ROE driven by high leverage: Financial risk, dependent on debt
+- Declining ROE: Investigate which component is deteriorating
+- Investigate whether growth is driven by positive cash flow or by debt. Assess risk of Fed interest rate hikes on the financial health of the company if the debt burden is significant
+
+### ALTMAN Z-SCORE INTERPRETATION
+- Safe Zone (>2.99): Low bankruptcy risk, financial stability
+- Grey Zone (1.81-2.99): Moderate risk, requires monitoring
+- Distress Zone (<1.81): High bankruptcy risk, urgent action needed
+
+### TYPICAL ENHANCED QUERIES YOU CAN HANDLE
+- "What's driving our ROE performance?"
+- "How sustainable is our current profitability?"
+- "What's our bankruptcy risk according to Altman Z-score?"
+- "Which Dupont component should we focus on to improve ROE?"
+- "How does our financial risk compare to industry peers?"
+- "What's the breakdown of our shareholder returns?"
+
+### COMMUNICATION ENHANCEMENTS
+- Use Dupont analysis to explain the "why" behind ROE movements
+- Incorporate Z-scores in risk discussions with clear implications
+- Connect analytical findings to strategic business decisions
+- Highlight both opportunities and risks with data-driven evidence
+
+You are now equipped to provide comprehensive financial analysis including advanced profitability decomposition and bankruptcy risk assessment. Be professional. Do not use emoji. When you don't know something, look it up on the web. Look up additional financial statements on Money Control.
+Balance Sheet of Adani Green Energy Limited (in Rs. Cr.)    Mar 22    Mar 21   Mar 20   Mar 19   Mar 18 -- --.1
+                                                      --   12 mths   12 mths  12 mths  12 mths  12 mths --   --
+                                EQUITIES AND LIABILITIES        --        --       --       --       -- --   --
+                                     SHAREHOLDER'S FUNDS        --        --       --       --       -- --   --
+                                    Equity Share Capital  1,564.00  1,564.00 1,564.01 1,564.01 1,564.01 --   --
+                                     Total Share Capital  1,564.00  1,564.00 1,564.01 1,564.01 1,564.01 --   --
+                                    Reserves and Surplus    -44.00    157.00  -124.57  -155.20  -120.11 --   --
+                              Total Reserves and Surplus    -44.00    157.00  -124.57  -155.20  -120.11 --   --
+                                Total Shareholders Funds  1,520.00  1,721.00 1,439.44 1,408.82 1,443.91 --   --
+                                 NON-CURRENT LIABILITIES        --        --       --       --       -- --   --
+                                    Long Term Borrowings 11,645.00  2,148.00 1,215.83 1,738.51 2,266.21 --   --
+                          Deferred Tax Liabilities [Net]      0.00      0.00     0.00     0.00     0.00 --   --
+                             Other Long Term Liabilities  5,466.00      0.00     0.00     0.00     0.00 --   --
+                                    Long Term Provisions     27.00     21.00    10.67     7.21     1.48 --   --
+                           Total Non-Current Liabilities 17,138.00  2,169.00 1,226.51 1,745.72 2,267.69 --   --
+                                     CURRENT LIABILITIES        --        --       --       --       -- --   --
+                                   Short Term Borrowings  5,644.00  3,162.00   415.29   541.13 1,217.64 --   --
+                                          Trade Payables    495.00    625.00   194.33    89.72    76.86 --   --
+                               Other Current Liabilities  2,407.00  5,865.00 2,368.43   874.20   320.40 --   --
+                                   Short Term Provisions     10.00      6.00     3.12     2.98     0.29 --   --
+                               Total Current Liabilities  8,556.00  9,658.00 2,981.17 1,508.03 1,615.19 --   --
+                           Total Capital And Liabilities 27,963.00 14,297.00 6,396.27 5,411.71 5,326.79 --   --
+                                                  ASSETS        --        --       --       --       -- --   --
+                                      NON-CURRENT ASSETS        --        --       --       --       -- --   --
+                                         Tangible Assets     65.00     60.00    60.38    60.77    68.81 --   --
+                                       Intangible Assets      9.00      7.00     1.57     0.79     0.43 --   --
+                                Capital Work-In-Progress      8.00      1.00     0.75     1.15     0.00 --   --
+                                            Other Assets      0.00      0.00     0.00     0.00     0.00 --   --
+                                            Fixed Assets     82.00     68.00    62.71    62.72    69.23 --   --
+                                 Non-Current Investments 17,837.00  2,920.00   682.11 2,029.71 1,529.66 --   --
+                               Deferred Tax Assets [Net]    414.00    321.00    69.65    10.13     5.91 --   --
+                            Long Term Loans And Advances  2,037.00  4,557.00     0.00     0.00     0.00 --   --
+                                Other Non-Current Assets    468.00    230.00    21.20    50.09   204.17 --   --
+                                Total Non-Current Assets 20,838.00  8,096.00   835.66 2,152.65 1,808.97 --   --
+                                          CURRENT ASSETS        --        --       --       --       -- --   --
+                                     Current Investments      2.00      0.00     0.00     0.00     0.00 --   --
+                                             Inventories  4,500.00  2,429.00   414.90   251.40     2.85 --   --
+                                       Trade Receivables    897.00  2,534.00    91.06   314.95   887.94 --   --
+                               Cash And Cash Equivalents    369.00    182.00   209.88   119.71    40.29 --   --
+                           Short Term Loans And Advances      2.00      0.00 3,245.03 2,092.47 2,416.85 --   --
+                                      OtherCurrentAssets  1,355.00  1,056.00 1,599.74   480.52   169.89 --   --
+                                    Total Current Assets  7,125.00  6,201.00 5,560.61 3,259.06 3,517.81 --   --
+                                            Total Assets 27,963.00 14,297.00 6,396.27 5,411.71 5,326.79 --   --
+                            OTHER ADDITIONAL INFORMATION        --        --       --       --       -- --   --
+                     CONTINGENT LIABILITIES, COMMITMENTS        --        --       --       --       -- --   --
+                                  Contingent Liabilities 10,409.00 13,152.00 4,820.90 3,615.96   216.14 --   --
+                                    CIF VALUE OF IMPORTS        --        --       --       --       -- --   --
+                                           Raw Materials      0.00      0.00     0.00     0.00     0.00 --   --
+                          Stores, Spares And Loose Tools      0.00      0.00     0.00     0.00     0.00 --   --
+                                       Trade/Other Goods      0.00      0.00     0.00     0.00     0.00 --   --
+                                           Capital Goods      0.00      0.00     0.00     0.00     0.00 --   --
+                         EXPENDITURE IN FOREIGN EXCHANGE        --        --       --       --       -- --   --
+                         Expenditure In Foreign Currency  6,284.94  1,818.14     5.61    46.36     0.00 --   --
+         REMITTANCES IN FOREIGN CURRENCIES FOR DIVIDENDS        --        --       --       --       -- --   --
+                 Dividend Remittance In Foreign Currency        --        --       --       --       -- --   --
+                            EARNINGS IN FOREIGN EXCHANGE        --        --       --       --       -- --   --
+                                      FOB Value Of Goods        --        --       --       --       -- --   --
+                                          Other Earnings        --      5.39    11.31       --       -- --   --
+                                           BONUS DETAILS        --        --       --       --       -- --   --
+                              Bonus Equity Share Capital        --        --       --       --       -- --   --
+                                 NON-CURRENT INVESTMENTS        --        --       --       --       -- --   --
+             Non-Current Investments Quoted Market Value        --        --       --       --       -- --   --
+             Non-Current Investments Unquoted Book Value 17,837.00  2,920.00   682.11 2,029.71 1,529.66 --   --
+                                     CURRENT INVESTMENTS        --        --       --       --       -- --   --
+                 Current Investments Quoted Market Value        --        --       --       --       -- --   --
+                 Current Investments Unquoted Book Value        --        --       --       --     0.00 --   --
+              Profit & Loss account of Adani Green Energy Limited (in Rs. Cr.)    Mar 22    Mar 21   Mar 20  Mar 19   Mar 18 -- --.1
+                                                                            --   12 mths   12 mths  12 mths 12 mths  12 mths --   --
+                                                                        INCOME        --        --       --      --       -- --   --
+                                               Revenue From Operations [Gross] 10,672.00  2,452.00 1,246.08  317.08 1,717.79 --   --
+                                          Less: Excise/Sevice Tax/Other Levies      0.00      0.00     0.00    0.00     0.00 --   --
+                                                 Revenue From Operations [Net] 10,672.00  2,452.00 1,246.08  317.08 1,717.79 --   --
+                                                      Total Operating Revenues 10,672.00  2,473.00 1,246.84  318.13 1,718.76 --   --
+                                                                  Other Income    489.00    533.00   332.96  302.65    66.73 --   --
+                                                                 Total Revenue 11,161.00  3,006.00 1,579.80  620.77 1,785.48 --   --
+                                                                      EXPENSES        --        --       --      --       -- --   --
+                                                    Cost Of Materials Consumed      0.00      0.00     0.00    0.00    81.43 --   --
+                                                   Purchase Of Stock-In Trade  12,559.00  4,409.00 1,369.81  547.03 1,587.02 --   --
+                                                 Operating And Direct Expenses      0.00      0.00     0.00    0.00     0.00 --   --
+                           Changes In Inventories Of FG,WIP And Stock-In Trade -2,072.00 -2,014.00  -165.09 -249.33     0.00 --   --
+                                                     Employee Benefit Expenses     26.00     16.00    28.82   25.67    16.59 --   --
+                                                                 Finance Costs    775.00    257.00   213.15  288.24   130.98 --   --
+                                        Depreciation And Amortisation Expenses      7.00      4.00     3.04    8.34     9.30 --   --
+                                                                Other Expenses     37.00     33.00    55.12   39.99    12.28 --   --
+                                                                Total Expenses 11,332.00  2,705.00 1,504.84  659.94 1,837.61 --   --
+                   Profit/Loss Before Exceptional, ExtraOrdinary Items And Tax   -171.00    301.00    74.97  -39.16   -52.13 --   --
+                                                             Exceptional Items     41.00    122.00     0.00    0.00     0.00 --   --
+                                                        Profit/Loss Before Tax   -130.00    423.00    74.97  -39.16   -52.13 --   --
+                                             Tax Expenses-Continued Operations        --        --       --      --       -- --   --
+                                                                   Current Tax      0.00      0.00     0.00    0.00     0.00 --   --
+                                                  Less: MAT Credit Entitlement      0.00      0.00     0.00    0.00     0.00 --   --
+                                                                  Deferred Tax    -72.00     59.00   -59.29   -4.18    -5.91 --   --
+                                                         Tax For Earlier Years      0.00      0.00     0.00    0.00     0.00 --   --
+                                                            Total Tax Expenses    -72.00     59.00   -59.29   -4.18    -5.91 --   --
+                          Profit/Loss After Tax And Before ExtraOrdinary Items    -58.00    364.00   134.26  -34.98   -46.22 --   --
+                                        Profit/Loss From Continuing Operations    -58.00    364.00   134.26  -34.98   -46.22 --   --
+                                                    Profit/Loss For The Period    -58.00    364.00   134.26  -34.98   -46.22 --   --
+                                                  OTHER ADDITIONAL INFORMATION        --        --       --      --       -- --   --
+                                                            EARNINGS PER SHARE        --        --       --      --       -- --   --
+                                                               Basic EPS (Rs.)     -0.76      1.93     0.46   -0.32    -0.30 --   --
+                                                             Diluted EPS (Rs.)     -0.76      1.93     0.46   -0.32    -0.30 --   --
+VALUE OF IMPORTED AND INDIGENIOUS RAW MATERIALS STORES, SPARES AND LOOSE TOOLS        --        --       --      --       -- --   --
+                                                        Imported Raw Materials      0.00      0.00     0.00    0.00     0.00 --   --
+                                                      Indigenous Raw Materials      0.00      0.00     0.00    0.00     0.00 --   --
+                                                STORES, SPARES AND LOOSE TOOLS        --        --       --      --       -- --   --
+                                                    Imported Stores And Spares      0.00      0.00     0.00    0.00     0.00 --   --
+                                                  Indigenous Stores And Spares      0.00      0.00     0.00    0.00     0.00 --   --
+                                              DIVIDEND AND DIVIDEND PERCENTAGE        --        --       --      --       -- --   --
+                                                         Equity Share Dividend      0.00      0.00     0.00    0.00     0.00 --   --
+                                                               Tax On Dividend      0.00      0.00     0.00    0.00     0.00 --   --
+                                                      Equity Dividend Rate (%)      0.00      0.00     0.00    0.00     0.00 --   --
+              Yearly Results of Adani Green Energy Limited (in Rs. Cr.)   Mar '22   Mar '21  Mar '20  Mar '19  Mar '18 -- --.1
+                                       Net Sales/Income from operations 10,672.00  2,452.00 1,246.08   318.13    98.44 --   --
+                                                 Other Operating Income        --     21.00     0.77       --       -- --   --
+                                           Total Income From Operations 10,672.00  2,473.00 1,246.84   318.13    98.44 --   --
+                                                            EXPENDITURE        --        --       --       --       -- --   --
+                                           Consumption of Raw Materials        --        --       --       --    84.92 --   --
+                                               Purchase of Traded Goods 12,559.00  4,409.00 1,369.81   297.70       -- --   --
+                                            Increase/Decrease in Stocks -2,071.00 -2,014.00  -165.09       --       -- --   --
+                                                           Power & Fuel        --        --       --       --       -- --   --
+                                                         Employees Cost     26.00     16.00    28.82    25.67    16.59 --   --
+                                                           Depreciation      7.00      4.00     3.04     8.34     9.30 --   --
+                                                            Excise Duty        --        --       --       --       -- --   --
+                                            Admin. And Selling Expenses        --        --       --       --       -- --   --
+                                                         R & D Expenses        --        --       --       --       -- --   --
+                                           Provisions And Contingencies        --        --       --       --       -- --   --
+                                                       Exp. Capitalised        --        --       --       --       -- --   --
+                                                         Other Expenses    -16.00     18.00    54.85    39.99    10.55 --   --
+                       P/L Before Other Inc. , Int., Excpt. Items & Tax    167.00     40.00   -44.57   -53.57   -22.93 --   --
+                                                           Other Income    438.00    519.00   332.69   302.65    57.47 --   --
+                                    P/L Before Int., Excpt. Items & Tax    605.00    559.00   288.11   249.08    34.53 --   --
+                                                               Interest    775.00    258.00   213.15   288.24    69.06 --   --
+                                     P/L Before Exceptional Items & Tax   -170.00    301.00    74.97   -39.16   -34.53 --   --
+                                                      Exceptional Items     41.00    122.00       --       --       -- --   --
+                                                         P/L Before Tax   -129.00    423.00    74.97   -39.16   -34.53 --   --
+                                                                    Tax    -72.00     59.00   -59.29    -4.18    -5.91 --   --
+                                 P/L After Tax from Ordinary Activities    -57.00    364.00   134.26   -34.98   -28.61 --   --
+                                                 Prior Year Adjustments        --        --       --       --       -- --   --
+                                                   Extra Ordinary Items        --        --       --       --       -- --   --
+                                       Net Profit/(Loss) For the Period    -57.00    364.00   134.26   -34.98   -28.61 --   --
+                                                   Equity Share Capital  1,564.00  1,564.00 1,564.01 1,564.01 1,376.75 --   --
+                                Reserves Excluding Revaluation Reserves    -44.00    157.00  -124.57  -155.20  -120.11 --   --
+                                               Equity Dividend Rate (%)        --        --       --       --       -- --   --
+                                              EPS Before Extra Ordinary        --        --       --       --       -- --   --
+                                                              Basic EPS     -0.76      1.93     0.46    -0.32    -0.21 --   --
+                                                            Diluted EPS     -0.76      1.93     0.46    -0.32    -0.21 --   --
+                                               EPS After Extra Ordinary        --        --       --       --       -- --   --
+                                                             Basic EPS.     -0.76      1.93     0.46    -0.32    -0.21 --   --
+                                                           Diluted EPS.     -0.76      1.93     0.46    -0.32    -0.21 --   --
+                                                   Public Share Holding        --        --       --       --       -- --   --
+                                                  No Of Shares (Crores)        --        --       --       --       -- --   --
+                                                      Share Holding (%)        --        --       --       --       -- --   --
+                              Promoters and Promoter Group Shareholding        --        --       --       --       -- --   --
+                                                  a) Pledged/Encumbered        --        --       --       --       -- --   --
+                                            - Number of shares (Crores)        --        --       --       --       -- --   --
+ - Per. of shares (as a % of the total sh. of prom. and promoter group)        --        --       --       --       -- --   --
+       - Per. of shares (as a % of the total Share Cap. of the company)        --        --       --       --       -- --   --
+                                                      b) Non-encumbered        --        --       --       --       -- --   --
+                                           - Number of shares (Crores).        --        --       --       --       -- --   --
+- Per. of shares (as a % of the total sh. of prom. and promoter group).        --        --       --       --       -- --   --
+      - Per. of shares (as a % of the total Share Cap. of the company).        --        --       --       --       -- --   --
+Cash Flow of Adani Green Energy Limited (in Rs. Cr.)     Mar 22    Mar 21   Mar 20  Mar 19    Mar 18 -- --.1
+                                                  --    12 mths   12 mths  12 mths 12 mths   12 mths --   --
+  Net Profit/Loss Before Extraordinary Items And Tax    -130.00    423.00    74.97  -39.16    -52.13 --   --
+              Net CashFlow From Operating Activities   1,455.00   -718.00 1,490.48  534.31   -662.83 --   --
+               Net Cash Used In Investing Activities -12,488.00 -2,274.00  -896.71  184.82 -2,242.46 --   --
+             Net Cash Used From Financing Activities  11,028.00  2,807.00  -502.41 -648.53  2,936.63 --   --
+                     Foreign Exchange Gains / Losses       0.00      0.00     0.00    0.00      0.00 --   --
+  Adjustments On Amalgamation Merger Demerger Others       0.00      0.00     0.00    0.00      0.00 --   --
+            Net Inc/Dec In Cash And Cash Equivalents      -5.00   -185.00    91.36   70.59     31.34 --   --
+             Cash And Cash Equivalents Begin of Year      15.00    200.00   108.52   37.93      6.58 --   --
+               Cash And Cash Equivalents End Of Year      10.00     15.00   199.88  108.52     37.93 --   --
+Key Financial Ratios of Adani Green Energy Limited (in Rs. Cr.)     Mar 22     Mar 21    Mar 20   Mar 19 Mar 18 -- --.1
+                                               Per Share Ratios         --         --        --       --     -- --   --
+                                                Basic EPS (Rs.)      -0.76       1.93      0.46    -0.32  -0.30 --   --
+                                              Diluted EPS (Rs.)      -0.76       1.93      0.46    -0.32  -0.30 --   --
+                                                 Cash EPS (Rs.)      -0.33       2.35      0.88    -0.17  -0.24 --   --
+                      Book Value [ExclRevalReserve]/Share (Rs.)       9.72      11.00      9.20     9.01   9.23 --   --
+                      Book Value [InclRevalReserve]/Share (Rs.)       9.72      11.00      9.20     9.01   9.23 --   --
+                                          Dividend / Share(Rs.)       0.00       0.00      0.00     0.00   0.00 --   --
+                            Revenue from Operations/Share (Rs.)      68.24      15.81      7.97     2.03  10.99 --   --
+                                              PBDIT/Share (Rs.)       3.91       3.59      1.86     1.65   0.56 --   --
+                                               PBIT/Share (Rs.)       3.86       3.57      1.84     1.59   0.50 --   --
+                                                PBT/Share (Rs.)      -0.83       2.70      0.48    -0.25  -0.33 --   --
+                                         Net Profit/Share (Rs.)      -0.37       2.33      0.86    -0.22  -0.30 --   --
+                                           Profitability Ratios         --         --        --       --     -- --   --
+                                               PBDIT Margin (%)       5.72      22.72     23.35    80.91   5.12 --   --
+                                                PBIT Margin (%)       5.65      22.56     23.10    78.29   4.58 --   --
+                                                 PBT Margin (%)      -1.21      17.10      6.01   -12.31  -3.03 --   --
+                                          Net Profit Margin (%)      -0.54      14.71     10.76   -10.99  -2.68 --   --
+                                Return on Networth / Equity (%)      -3.81      21.15      9.32    -2.48  -3.20 --   --
+                                 Return on Capital Employed (%)       3.11      12.02      8.43     6.38   2.12 --   --
+                                           Return on Assets (%)      -0.20       2.54      2.09    -0.64  -0.86 --   --
+                                          Total Debt/Equity (X)      11.37       3.09      1.13     1.62   2.41 --   --
+                                       Asset Turnover Ratio (%)       0.51      17.29     19.49     5.87  32.26 --   --
+                                               Liquidity Ratios         --         --        --       --     -- --   --
+                                              Current Ratio (X)       0.83       0.64      1.87     2.16   2.18 --   --
+                                                Quick Ratio (X)       0.31       0.39      1.73     1.99   2.18 --   --
+                                   Inventory Turnover Ratio (X)       0.00       1.02      3.01     1.27 602.86 --   --
+                                 Dividend Payout Ratio (NP) (%)       0.00       0.00      0.00     0.00   0.00 --   --
+                                 Dividend Payout Ratio (CP) (%)       0.00       0.00      0.00     0.00   0.00 --   --
+                                   Earnings Retention Ratio (%)       0.00       0.00      0.00     0.00   0.00 --   --
+                              Cash Earnings Retention Ratio (%)       0.00       0.00      0.00     0.00   0.00 --   --
+                                               Valuation Ratios         --         --        --       --     -- --   --
+                                         Enterprise Value (Cr.) 316,175.76 177,840.52 25,452.33 7,985.88   0.00 --   --
+                                   EV/Net Operating Revenue (X)      29.63      71.91     20.41    25.10   0.00 --   --
+                                                  EV/EBITDA (X)     517.47     316.44     87.42    31.02   0.00 --   --
+                            MarketCap/Net Operating Revenue (X)      28.04      69.84     19.27    18.31   0.00 --   --
+                                           Retention Ratios (%)       0.00       0.00      0.00     0.00   0.00 --   --
+                                                   Price/BV (X)     196.89     100.36     16.70     4.14   0.00 --   --
+                                    Price/Net Operating Revenue      28.04      69.84     19.27    18.31   0.00 --   --
+                                                 Earnings Yield       0.00       0.00      0.01    -0.01   0.00 --   --
